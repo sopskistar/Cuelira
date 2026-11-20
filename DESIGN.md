@@ -166,6 +166,8 @@ The system is flat and uses tonal surfaces plus rules, not box shadows. The pale
 
 Controls have gently eased corners; small labels and alerts use tighter corners. Script and scene-cover surfaces remain square. Single-pixel borders separate controls and report rows, while a two-pixel rule indicates active navigation or beat progress. The face-framing guide uses a softly rounded outline only while capture is present. The original Cuelira mark uses crisp vector geometry and must not be distorted.
 
+The welcome scene cover intentionally has an eight-pixel mint binding strip on its left edge, referencing a bound rehearsal script. This belongs only to the script-cover composition; do not repeat it as a card or notice accent.
+
 ## Components
 
 ### Buttons

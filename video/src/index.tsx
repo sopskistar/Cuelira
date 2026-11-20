@@ -14,9 +14,9 @@ import manifest from "../manifest.json";
 const bg = "#151919";
 const ink = "#f3f5ed";
 const accent = "#c7ddac";
-const face = "Cuelira Display, sans-serif";
+const face = "Barlow Condensed, sans-serif";
 const Font = () => (
-  <style>{`@font-face {font-family:'Cuelira Display'; src:url('${staticFile("generated/barlow.woff")}') format('woff'); font-weight:600;}`}</style>
+  <style>{`@font-face {font-family:'Barlow Condensed'; src:url('${staticFile("generated/barlow.woff")}') format('woff'); font-weight:600;}`}</style>
 );
 function Title({ outro = false }: { outro?: boolean }) {
   const frame = useCurrentFrame();

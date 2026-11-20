@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/styles.css"
+        ],
+        "createdAt": "2026-11-20T02:40:52.473Z",
+        "reason": "Agent review: the existing scene-cover pseudo-element is a bound rehearsal-script spine, inspected in the actual welcome screenshot and documented in DESIGN.md; preserve this domain-specific cover treatment."
+      }
+    ]
+  }
+}
