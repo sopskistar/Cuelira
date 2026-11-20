@@ -52,3 +52,5 @@ Final commits, package outcome, visual-review verdict and staged-file audit are 
 - Impeccable source critique identified a missing announcement of Rowan's response for assistive technology. I added a concise transition-only status region, excluded rapid metric changes, and verified its text in the GUI journey. Formal screen-reader testing remains NOT TESTED.
 
 - Public challenge status resolved through an actual Chromium render: visible status is **Live**. Initial text extraction combined visible and hidden labels. I have not attempted a submission receipt.
+
+- Initial public CI failed on unsupported Ubuntu 26.04 browser setup and an unwanted electron-builder publication attempt after generating the Windows installer. Linux now pins Ubuntu 24.04 and packaging explicitly uses `--publish never`. No release credential was added. Remote rerun status is reported with the final handoff.
