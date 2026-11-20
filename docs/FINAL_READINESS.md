@@ -25,7 +25,8 @@ I have implemented an independently testable build. **Cuelira is not yet a fully
 | Dependency advisory audit                                   | VERIFIED snapshot                                | Queried audit: zero findings after patched versions/override                                                   |
 | Tracked-file secret/media scan                              | VERIFIED full staging                     | 100 tracked files scanned, zero findings; private media and build artifacts remain ignored             |
 | Linux packaging                                             | VERIFIED unpacked build/startup                  | Final unpacked app launched and loaded bundled native SDK; camera/authentication not tested                    |
-| Windows installer and native camera workflow                | NOT TESTED locally                               | Windows CI configured; human device acceptance required                                                        |
+| Windows installer build and packaged runtime                | VERIFIED Windows CI                              | Native library loaded; manual take completed, persisted and deleted; no credential/camera                       |
+| Windows installer interaction and native camera workflow    | NOT TESTED                                       | Human device acceptance required                                                                               |
 | Brand assets and title-graphics video                       | VERIFIED exports                                 | Original SVG/PNG/ICO; graphics-only MP4 inspected                                                              |
 | Genuine demo video                                          | INCOMPLETE                                       | Editable project and storyboard ready; authentic footage absent                                                |
 | DEV submission                                              | INCOMPLETE draft                                 | Not published; human eligibility and submission status must be confirmed                                       |
@@ -36,7 +37,7 @@ I need a private Presage developer key configured on native Windows, a webcam, a
 
 Then I can calibrate any unreliable cue, complete and inspect the final edited MP4, replace the draft video placeholders, recheck the current deadline/status before publishing, and publish the English DEV post myself. Codex has no approval to publish that post. No simulated measurement or manual action can close the live requirement.
 
-Final commits, package outcome, visual-review verdict and staged-file audit are appended below as they are actually verified. The Git log and CI run, not a predicted outcome, identify the final build revision.
+Final commits, package outcome, visual-review verdict and staged-file audit are appended below as they are actually verified. The Git log and CI run identify the build revision.
 
 ## Closing audit record
 
@@ -54,3 +55,5 @@ Final commits, package outcome, visual-review verdict and staged-file audit are 
 - Public challenge status resolved through an actual Chromium render: visible status is **Live**. Initial text extraction combined visible and hidden labels. I have not attempted a submission receipt.
 
 - Initial public CI failed on unsupported Ubuntu 26.04 browser setup and an unwanted electron-builder publication attempt after generating the Windows installer. Linux now pins Ubuntu 24.04 and packaging explicitly uses `--publish never`. No release credential was added. Remote rerun status is reported with the final handoff.
+
+- **Final remote verification passed:** [run 44661497725](https://github.com/sopskistar/Cuelira/actions/runs/44661497725), revision `1ae9005b078e59d110970e287cd0e5a51f07b099`, completed both Linux verification and Windows build/runtime jobs successfully. The packaged Windows executable loaded the actual native SDK DLL, completed a manual take, retained it after reload and deleted it. Renderer Node globals were absent. The two attached Windows screenshots were inspected. No key, camera, SDK authentication or real facial measurement was used. The unsigned installer and verification report are CI artifacts; actual installer interaction remains NOT TESTED.

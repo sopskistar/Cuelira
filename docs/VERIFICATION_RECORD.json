@@ -84,5 +84,22 @@
     "status": "VERIFIED heuristic scan",
     "files": 100,
     "findings": 0
+  },
+  "windowsPackage": {
+    "status": "VERIFIED build and packaged runtime",
+    "sourceCommit": "1ae9005b078e59d110970e287cd0e5a51f07b099",
+    "ciRun": "https://github.com/sopskistar/Cuelira/actions/runs/44661497725",
+    "platform": "win32-x64",
+    "nativeSdkLoaded": true,
+    "manualTakePersisted": true,
+    "manualTakeDeleted": true,
+    "rendererNodeGlobalsAbsent": true,
+    "cameraTested": false,
+    "authenticationTested": false,
+    "installerInteractionTested": false,
+    "screenshotsInspected": true,
+    "installerArtifact": "Cuelira-Windows-unsigned / Cuelira Setup 0.1.0.exe",
+    "installerBytes": 157847178,
+    "installerSha256": "d8d2872c1fe156b95f19ec3b4e12196faf4ee5af1789e797a9ef12cedff0e4af"
   }
 }

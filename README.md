@@ -6,7 +6,7 @@ Cuelira is a live self-tape rehearsal partner that uses Presage SmartSpectra to 
 
 [Run locally](#run-locally-native-windows) | [Verify the live SDK](docs/TESTING.md) | [Judge walkthrough](docs/JUDGE_WALKTHROUGH.md) | [Readiness](docs/FINAL_READINESS.md)
 
-**Current evidence:** working Electron app, 36 unit/integration tests and four GUI tests. **Genuine webcam recognition is NOT TESTED; the final demo video is INCOMPLETE.** I need an authenticated Windows camera run and actual performance footage before claiming submission readiness.
+**Current evidence:** working Electron app, 36 unit/integration tests, four local GUI tests, and a [passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44661497725). **Genuine webcam recognition is NOT TESTED; the final demo video is INCOMPLETE.** I need an authenticated Windows camera run and actual performance footage before claiming submission readiness.
 
 ![Real Cuelira Electron application, camera off](assets/screenshots/electron-welcome.png)
 
@@ -56,7 +56,7 @@ npm audit
 npm run package:win
 ```
 
-The Windows package command should run natively on Windows. Linux unpacked packaging uses `npm run package:linux`. No native rebuild step is needed for this FFI SDK. [CI](.github/workflows/check.yml) runs build/tests/browser checks and a Windows installer build; check actual run status rather than assuming it passes. The unsigned installer is a development artifact, not a signed public release.
+The Windows package command should run natively on Windows. Linux unpacked packaging uses `npm run package:linux`. No native rebuild step is needed for this FFI SDK. [Verified CI run](https://github.com/sopskistar/Cuelira/actions/runs/44661497725) includes build/tests/browser checks, an unsigned Windows installer, and a packaged Windows launch/native-library/manual-persistence check. Its **Cuelira-Windows-unsigned** artifact contains the installer. This development artifact is unsigned; no camera or authentication was tested in CI.
 
 ## Privacy and honest evidence
 
@@ -66,7 +66,7 @@ Optional SDK telemetry is disabled, but this does **not** mean offline or no pro
 
 | Evidence                                                             | Status                                                          |
 | -------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Actual Electron launch, native library load, manual workflow/storage | VERIFIED in WSL                                                 |
+| Actual Electron launch, native library load, manual workflow/storage | VERIFIED in WSL and packaged Windows CI                          |
 | Protobuf decoding, recognition, neutral guard, error recovery        | TESTED WITH FIXTURES                                            |
 | Playable optional video                                              | TESTED WITH SYNTHETIC CANVAS; real webcam NOT TESTED            |
 | Authenticated human facial cue → response → review                   | NOT TESTED                                                      |
