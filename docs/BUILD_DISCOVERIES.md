@@ -1,0 +1,28 @@
+# Build discoveries and evidence log
+
+I began with my original repository on `main`, remote `https://github.com/sopskistar/Cuelira.git`, clean at `c9e5779`. Its initial commit is dated 19 November 2026. I preserved my MIT copyright and did not create another repository or rewrite history.
+
+## 19 November 2026, US Eastern
+
+- **Environment verified:** Ubuntu 24.04.4 on WSL2, Linux x64, glibc compatible with the SDK; Node 22.23.1 and npm 10.9.8. My ordinary target remains native Windows 11. No `/dev/video*` or Presage key was available in this shell; credential values were not printed.
+- **Skills and resources inspected:** installed creative, brand, motion, QA, UI/UX and video skills; shared Creative Studio references and the existing Remotion workspace. I read the official `using-smartspectra` skill in an external `/tmp` clone rather than installing a duplicate.
+- **Requirements checked:** initial text extraction combined “Live Ended.” A later real Chromium render resolved this: visible status is Live and the template is reachable; no submission receipt was attempted. Original entry-period development and live-signal video remain mandatory.
+- **SDK confirmed:** npm package 3.5.0; official main/preload/renderer/messages entry points; FFI through Koffi, no application native rebuild requirement. `faceMetrics=[11,12,13,14]`; default metrics are breathing, not face.
+- **Payload discovery:** expression confidence uses 0–100 percentages, not 0–1 probabilities. Expression timestamps are epoch microseconds. Protobuf defaults/missing fields must not become invented measurements.
+- **Credential boundary:** public bind options offer logging only. I use an inspected, version-pinned Electron port policy for main-only credentials and enforced consent/configuration; exact transport contract needs re-audit on upgrades and real Windows startup evidence.
+- **Privacy discovery:** optional telemetry defaults on; I turn it off. The current November 2026 provider policy also describes usage/model/authentication and automatic Insights independent of telemetry. The docs' older policy link returned February 2024 content. I updated the app disclosure and use the current legal link. Native traffic is not independently audited.
+- **Dependency failure fixed:** npm 10 peer-tree expansion crashed on Vitest's optional peers (`edgesOut`). Exact versions plus project `.npmrc` with `legacy-peer-deps=true` make the declared lockfile installable; type/build/tests check compatibility. No global npm update was made.
+- **Security iteration:** initial audit found high/critical toolchain advisories. Patched Vite, Vitest, Zod, Sharp and electron-builder; a narrowly scoped minimatch 11.0.1 override follows the inspected official starter. The final queried audit returned zero advisories. This is an advisory snapshot, not a security guarantee.
+- **Desktop proof:** the real Electron app launched with the native SDK library loaded, no renderer Node globals, no configured key, and no camera claim. Manual rehearsal persisted across reload and deleted correctly. A genuine key/face was never substituted with fixtures.
+- **Logic checks:** tests exercised official protobuf encoding/decoding, missing/malformed data, arming/dwell/debounce, stale/duplicate/wrong cues, neutral departure/return, manual provenance, pause/recovery, adapter teardown/cancellation and storage/export/deletion. Final counts are in [readiness](FINAL_READINESS.md).
+- **Reliability fixes:** asynchronous startup now prevents duplicates and supports cancellation; a canceled SDK cannot become ready. Camera-loss stops the recording indicator and preserves any partial video for save. Manual mode rejects late observation callbacks. Checkpoints serialize atomic writes and recover interrupted sessions with an honest end-time limitation.
+- **GUI failure fixed:** initial keyboard assertion expected the brand link, while route focus intentionally starts at the main heading; the next Tab reaches Start a rehearsal. Test corrected to the actual accessible focus model.
+- **Visual review:** real desktop screenshots showed controls below the 960×680 viewport and preparation lacking the complete script. I compacted the stage, exposed the full script, corrected camera-off pause wording and enlarged functional status text. Screenshots contain no invented actor or readings.
+- **Packaging:** first Linux attempt failed on sandbox DNS to GitHub. I retried with network approval. Native rebuild is explicitly disabled (`npmRebuild:false`); runtime DLL/shared-library resources are unpacked. See final readiness for the actual package outcome; a Linux package does not validate Windows hardware.
+- **Video:** reused Remotion 4.0.541 dependencies from the shared workspace without modifying it. Rendered a six-second original graphics proof; FFprobe reports H.264, 1920×1080, 30 fps, six seconds. Frame inspection confirmed the artwork and clear non-demo label. Final 90-second composition waits for genuine performance footage.
+
+## Outstanding hardware discoveries
+
+No thresholds have been calibrated on a real face. No cue adaptation is claimed. Actual camera consent/denial, Windows authenticated initialization, reliable score cadence, performed cue transitions, webcam recording, packaged-Windows runtime and genuine final video remain unverified. I must append dated evidence, failures and any threshold/script changes rather than retroactively declaring these tests passed.
+
+- **Accessibility correction:** the separate Impeccable critique found that only cue hints were live-announced. Revision `87fc29b` announces Rowan's response and the next beat once per transition, and the GUI test checks that content. I do not claim a formal screen-reader test.

@@ -1,0 +1,18 @@
+# Focused threat model
+
+I protect the developer credential, consenting actor's image, face-derived observations and local takes. This is a single-user desktop prototype, not a multi-tenant service or an unattended monitor.
+
+| Risk / boundary                              | Mitigation implemented                                                                                            | Remaining limit                                                                       |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Remote content gains native or camera access | Local bundled entry only, blocked navigation/popups/webviews; isolated sandboxed renderer; no Node globals        | Dependency/native vulnerabilities and a compromised OS remain outside this protection |
+| Untrusted IPC writes arbitrary files         | Main checks exact sender, main frame and bundled URL; UUID validation; schema-limited reports; native save dialog | Explicit exports may overwrite a user-selected destination                            |
+| Renderer exposes developer key               | Main-only loading and port injection; no getter, public build variable or raw SDK diagnostic logging              | User with local debugging/process access can recover credentials                      |
+| Camera starts before consent                 | Main permission handlers and SDK port policy; explicit opt-in, video-only request                                 | OS remembers its own permission state independently                                   |
+| Stale or duplicated cues advance a scene     | Monotonic sample timestamps, age limits, validation/stability/confidence checks, arming, dwell, cooldown          | Thresholds await real-face calibration; expression bias/lighting limits remain        |
+| Manual action becomes false sponsor evidence | Separate manual event, mode label, report provenance; no mock mode shipped                                        | A saved event report is not cryptographically attested hardware evidence              |
+| Private media leaks to GitHub                | Ignored media folders, tracked-file security scan, no app upload endpoint                                         | User exports or independently shares recordings                                       |
+| Excessive recording memory                   | 140 MB recorder safety limit; 150 MB storage limit; scene events sampled/capped                                   | An abnormal recording or malicious local renderer still has resource costs            |
+| Interrupted write or restart                 | Serialized atomic JSON replacement, five-second checkpoints, explicit recovery status                             | Recent events and unsaved video can be lost; no forensic deletion or backup service   |
+| Misleading privacy claims                    | Provider-policy disclosure and explicit native-network audit limit                                                | Presage controls remote retention and service behavior                                |
+
+I use no auto-updater, cloud database, paid inference service or remote scene download. The official SmartSpectra port is broader than Cuelira needs, so the main policy fixes its configuration and blocks prompt requests. SDK 3.5.0 must remain pinned until this policy is re-inspected. Native/runtime license and dependency advisories are reviewed before redistribution. See [testing](TESTING.md) and [privacy](PRIVACY_AND_CONSENT.md).

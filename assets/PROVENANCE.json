@@ -1,0 +1,192 @@
+{
+  "sourceCommit": "87fc29baaebe8d4578513f336b6b758b3de95229",
+  "note": "Capture metadata does not assert live hardware proof.",
+  "files": [
+    {
+      "path": "assets/brand/direction-a-cue-frame.svg",
+      "sha256": "8ae19a1fcc97d1c069ca37f75e632dab6cd0b3e0b09c66f65cca008eb6f1af00",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.942395+00:00"
+    },
+    {
+      "path": "assets/brand/direction-b-dialogue.svg",
+      "sha256": "9d80e3326e98f22a7844b400c3ebd895e3f8f5141d73010a4d50e6ca1c3120eb",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.952463+00:00"
+    },
+    {
+      "path": "assets/brand/github-preview.png",
+      "sha256": "e5451fd9c2ddaa0e1b88bdf1064cffa704f60816866ec58a42c6a7f7879d8e20",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.313785+00:00"
+    },
+    {
+      "path": "assets/brand/github-preview.svg",
+      "sha256": "c956e2f2bd38760d078286057ec8a59a156eaa9c36c87b8fe7f240869047c2f8",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:06.062824+00:00"
+    },
+    {
+      "path": "assets/brand/icon-128.png",
+      "sha256": "5661d6ad1894fd46f8808318e4869572a16dbaa4ae05260702048c6b69d6e2a6",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.243309+00:00"
+    },
+    {
+      "path": "assets/brand/icon-16.png",
+      "sha256": "6c748fc7591edcf57a78fc225fff65c8208d6e7ca9305acd6dcaa1bf2884ffc1",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.283581+00:00"
+    },
+    {
+      "path": "assets/brand/icon-24.png",
+      "sha256": "9a7d524301877a87bfd669c5fe67263a7eb2b847fc9bfe55380ca3358167dc21",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.233241+00:00"
+    },
+    {
+      "path": "assets/brand/icon-256.png",
+      "sha256": "2ee90010a50bd1ac283d16e713e24128ef32d04dfb859d18bad86ecc59ea736b",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.263445+00:00"
+    },
+    {
+      "path": "assets/brand/icon-32.png",
+      "sha256": "e1e238ad93c6b3346a2d1da2e3859c6eac40a0ef6d066ff552173834937659e8",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.203037+00:00"
+    },
+    {
+      "path": "assets/brand/icon-48.png",
+      "sha256": "75bd9fff7f81d1e831ad46ae091176765bf182e4291455d0df912c27b46edf5a",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.182901+00:00"
+    },
+    {
+      "path": "assets/brand/icon-64.png",
+      "sha256": "cc44de4cfa3d4efe7011688c9f55b7e3085d7752a30deca4bb4a6af521560f87",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.192969+00:00"
+    },
+    {
+      "path": "assets/brand/icon-dark.png",
+      "sha256": "5cb7e36bf0f817787f219d24d94ad1b56f93db391a984825757ab0c6578add95",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.223173+00:00"
+    },
+    {
+      "path": "assets/brand/icon-dark.svg",
+      "sha256": "53a747ff01f9a6efa9b0516caffed619fa97d3568a63428b4ebc77ecbeb10b5e",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.952463+00:00"
+    },
+    {
+      "path": "assets/brand/icon-light.png",
+      "sha256": "94241033ea7fe1e38ddd440079281ab037fc8f1e678818cadc93af1b1c9fb563",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.213105+00:00"
+    },
+    {
+      "path": "assets/brand/icon-light.svg",
+      "sha256": "2324beb40b95a8b8274b0ab6f1ba2c9c6c2f37911c3b91495cc0f76c134454a9",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.972527+00:00"
+    },
+    {
+      "path": "assets/brand/icon.ico",
+      "sha256": "4d23c46232b194a3562955e7f475f271a94e2f4b587d106c1b4897e3a6343efe",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:06.032723+00:00"
+    },
+    {
+      "path": "assets/brand/icon.png",
+      "sha256": "bb4c45f37fdbee115ba3ce39ce9846b712ece29cd9169c20c12eb92bd13bd820",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.303717+00:00"
+    },
+    {
+      "path": "assets/brand/icon.svg",
+      "sha256": "dc8e524de3378860257141e7bfebd74279551504aaec99033ec7b4d0e8672f27",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.992590+00:00"
+    },
+    {
+      "path": "assets/brand/social-preview.png",
+      "sha256": "e5451fd9c2ddaa0e1b88bdf1064cffa704f60816866ec58a42c6a7f7879d8e20",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.253377+00:00"
+    },
+    {
+      "path": "assets/brand/social-preview.svg",
+      "sha256": "c956e2f2bd38760d078286057ec8a59a156eaa9c36c87b8fe7f240869047c2f8",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:06.032723+00:00"
+    },
+    {
+      "path": "assets/brand/video-intro.png",
+      "sha256": "c023c6d46e1b306f754d2f55e4463b8472fe369f3107a26d9e9f95c1afbd8eb0",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.323853+00:00"
+    },
+    {
+      "path": "assets/brand/video-intro.svg",
+      "sha256": "ab2b6974f6fe0d6f372b46e9476a301130f5c6e03e29c120dd19b909d51d6923",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:06.092926+00:00"
+    },
+    {
+      "path": "assets/brand/video-outro.png",
+      "sha256": "2e848acf6f93f2a6f67d6891dddac1beb3fcdf6548332fcfe1df478071819fa8",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.293649+00:00"
+    },
+    {
+      "path": "assets/brand/video-outro.svg",
+      "sha256": "6b4a361907320e0a15aa6249d4df28c2dddf6d0b90a78fbc26bfb0c47477fa6a",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:06.123028+00:00"
+    },
+    {
+      "path": "assets/brand/wordmark-dark.png",
+      "sha256": "8e9976b7a4c7a9dfdc70a76c17c97d38a859fcec7b5c46fbe4cfbff1ce1edc0e",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.172833+00:00"
+    },
+    {
+      "path": "assets/brand/wordmark-dark.svg",
+      "sha256": "186b54dc022223c7d6096e8e5f5e3051683897c657e2d596646ba503624336a9",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.952463+00:00"
+    },
+    {
+      "path": "assets/brand/wordmark-light.png",
+      "sha256": "679c30535dabe6cec0867c46262c601903dfadbc9d7c7f8e8b44fb3d77c59f31",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T01:19:17.162765+00:00"
+    },
+    {
+      "path": "assets/brand/wordmark-light.svg",
+      "sha256": "eaacd57b35b06ce420793f9691b73005f3c40febdc6c90175bd472f02b0adab1",
+      "origin": "original vector export from scripts/brand.mjs",
+      "modifiedUtc": "2026-11-20T00:56:05.972527+00:00"
+    },
+    {
+      "path": "assets/screenshots/electron-welcome.png",
+      "sha256": "1da85068a675f5a439c41b7608c7ca26c32f89dd6a324565a173a1accff0061f",
+      "origin": "real application capture: camera off/manual; no live SDK metrics",
+      "modifiedUtc": "2026-11-20T01:46:38.746864+00:00"
+    },
+    {
+      "path": "assets/screenshots/review-manual.png",
+      "sha256": "47bcfca34424ae019f1cb2ef7a83e02a416065ce5f747845377a40e8a60f223a",
+      "origin": "real application capture: camera off/manual; no live SDK metrics",
+      "modifiedUtc": "2026-11-20T01:46:38.736788+00:00"
+    },
+    {
+      "path": "assets/screenshots/stage-manual.png",
+      "sha256": "8c1f8c394997cfbc650b784f9181db137bee4b1b2e8309550cebcf38faf063cc",
+      "origin": "real application capture: camera off/manual; no live SDK metrics",
+      "modifiedUtc": "2026-11-20T01:46:38.756940+00:00"
+    }
+  ]
+}

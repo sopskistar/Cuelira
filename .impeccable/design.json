@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T01:21:32.350103+00:00",
+  "title": "Design System: Cuelira",
+  "extensions": {
+    "colorMeta": {
+      "cue-mint": {
+        "role": "primary",
+        "displayName": "Cue mint",
+        "tonalRamp": [
+          "oklch(15% 0.0199 127.46)",
+          "oklch(26% 0.0418 127.46)",
+          "oklch(38% 0.0656 127.46)",
+          "oklch(49% 0.0696 127.46)",
+          "oklch(61% 0.0696 127.46)",
+          "oklch(72% 0.0696 127.46)",
+          "oklch(84% 0.0445 127.46)",
+          "oklch(95% 0.0139 127.46)"
+        ]
+      },
+      "cue-mint-hover": {
+        "role": "primary",
+        "displayName": "Cue mint hover",
+        "tonalRamp": [
+          "oklch(15% 0.0142 127.42)",
+          "oklch(26% 0.0297 127.42)",
+          "oklch(38% 0.0467 127.42)",
+          "oklch(49% 0.0496 127.42)",
+          "oklch(61% 0.0496 127.42)",
+          "oklch(72% 0.0496 127.42)",
+          "oklch(84% 0.0317 127.42)",
+          "oklch(95% 0.0099 127.42)"
+        ]
+      },
+      "studio-green": {
+        "role": "neutral",
+        "displayName": "Studio green",
+        "tonalRamp": [
+          "oklch(15% 0.0103 159.24)",
+          "oklch(26% 0.0215 159.24)",
+          "oklch(38% 0.0338 159.24)",
+          "oklch(49% 0.0359 159.24)",
+          "oklch(61% 0.0359 159.24)",
+          "oklch(72% 0.0359 159.24)",
+          "oklch(84% 0.0230 159.24)",
+          "oklch(95% 0.0072 159.24)"
+        ]
+      },
+      "studio-coal": {
+        "role": "neutral",
+        "displayName": "Studio coal",
+        "tonalRamp": [
+          "oklch(15% 0.0017 196.69)",
+          "oklch(26% 0.0037 196.69)",
+          "oklch(38% 0.0058 196.69)",
+          "oklch(49% 0.0061 196.69)",
+          "oklch(61% 0.0061 196.69)",
+          "oklch(72% 0.0061 196.69)",
+          "oklch(84% 0.0039 196.69)",
+          "oklch(95% 0.0012 196.69)"
+        ]
+      },
+      "monitor": {
+        "role": "neutral",
+        "displayName": "Monitor",
+        "tonalRamp": [
+          "oklch(15% 0.0025 184.51)",
+          "oklch(26% 0.0053 184.51)",
+          "oklch(38% 0.0084 184.51)",
+          "oklch(49% 0.0089 184.51)",
+          "oklch(61% 0.0089 184.51)",
+          "oklch(72% 0.0089 184.51)",
+          "oklch(84% 0.0057 184.51)",
+          "oklch(95% 0.0018 184.51)"
+        ]
+      },
+      "hover-surface": {
+        "role": "neutral",
+        "displayName": "Hover surface",
+        "tonalRamp": [
+          "oklch(15% 0.0033 178.79)",
+          "oklch(26% 0.0069 178.79)",
+          "oklch(38% 0.0108 178.79)",
+          "oklch(49% 0.0115 178.79)",
+          "oklch(61% 0.0115 178.79)",
+          "oklch(72% 0.0115 178.79)",
+          "oklch(84% 0.0074 178.79)",
+          "oklch(95% 0.0023 178.79)"
+        ]
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "Divider",
+        "tonalRamp": [
+          "oklch(15% 0.0041 169.57)",
+          "oklch(26% 0.0087 169.57)",
+          "oklch(38% 0.0137 169.57)",
+          "oklch(49% 0.0145 169.57)",
+          "oklch(61% 0.0145 169.57)",
+          "oklch(72% 0.0145 169.57)",
+          "oklch(84% 0.0093 169.57)",
+          "oklch(95% 0.0029 169.57)"
+        ]
+      },
+      "muted-ink": {
+        "role": "neutral",
+        "displayName": "Muted ink",
+        "tonalRamp": [
+          "oklch(15% 0.0042 162.37)",
+          "oklch(26% 0.0089 162.37)",
+          "oklch(38% 0.0139 162.37)",
+          "oklch(49% 0.0148 162.37)",
+          "oklch(61% 0.0148 162.37)",
+          "oklch(72% 0.0148 162.37)",
+          "oklch(84% 0.0095 162.37)",
+          "oklch(95% 0.0030 162.37)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Foreground",
+        "tonalRamp": [
+          "oklch(15% 0.0031 118.02)",
+          "oklch(26% 0.0065 118.02)",
+          "oklch(38% 0.0102 118.02)",
+          "oklch(49% 0.0108 118.02)",
+          "oklch(61% 0.0108 118.02)",
+          "oklch(72% 0.0108 118.02)",
+          "oklch(84% 0.0069 118.02)",
+          "oklch(95% 0.0022 118.02)"
+        ]
+      },
+      "script-sheet": {
+        "role": "neutral",
+        "displayName": "Script sheet",
+        "tonalRamp": [
+          "oklch(15% 0.0035 121.71)",
+          "oklch(26% 0.0074 121.71)",
+          "oklch(38% 0.0117 121.71)",
+          "oklch(49% 0.0124 121.71)",
+          "oklch(61% 0.0124 121.71)",
+          "oklch(72% 0.0124 121.71)",
+          "oklch(84% 0.0079 121.71)",
+          "oklch(95% 0.0025 121.71)"
+        ]
+      },
+      "script-ink": {
+        "role": "neutral",
+        "displayName": "Script ink",
+        "tonalRamp": [
+          "oklch(15% 0.0041 157.93)",
+          "oklch(26% 0.0086 157.93)",
+          "oklch(38% 0.0136 157.93)",
+          "oklch(49% 0.0144 157.93)",
+          "oklch(61% 0.0144 157.93)",
+          "oklch(72% 0.0144 157.93)",
+          "oklch(84% 0.0092 157.93)",
+          "oklch(95% 0.0029 157.93)"
+        ]
+      },
+      "script-secondary": {
+        "role": "neutral",
+        "displayName": "Script secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0068 149.70)",
+          "oklch(26% 0.0142 149.70)",
+          "oklch(38% 0.0224 149.70)",
+          "oklch(49% 0.0237 149.70)",
+          "oklch(61% 0.0237 149.70)",
+          "oklch(72% 0.0237 149.70)",
+          "oklch(84% 0.0152 149.70)",
+          "oklch(95% 0.0047 149.70)"
+        ]
+      },
+      "cover-sage": {
+        "role": "neutral",
+        "displayName": "Cover sage",
+        "tonalRamp": [
+          "oklch(15% 0.0115 135.57)",
+          "oklch(26% 0.0242 135.57)",
+          "oklch(38% 0.0380 135.57)",
+          "oklch(49% 0.0403 135.57)",
+          "oklch(61% 0.0403 135.57)",
+          "oklch(72% 0.0403 135.57)",
+          "oklch(84% 0.0258 135.57)",
+          "oklch(95% 0.0081 135.57)"
+        ]
+      },
+      "caution": {
+        "role": "state",
+        "displayName": "Caution",
+        "tonalRamp": [
+          "oklch(15% 0.0249 40.26)",
+          "oklch(26% 0.0524 40.26)",
+          "oklch(38% 0.0823 40.26)",
+          "oklch(49% 0.0873 40.26)",
+          "oklch(61% 0.0873 40.26)",
+          "oklch(72% 0.0873 40.26)",
+          "oklch(84% 0.0559 40.26)",
+          "oklch(95% 0.0175 40.26)"
+        ]
+      },
+      "error-surface": {
+        "role": "state",
+        "displayName": "Error surface",
+        "tonalRamp": [
+          "oklch(15% 0.0117 28.72)",
+          "oklch(26% 0.0246 28.72)",
+          "oklch(38% 0.0386 28.72)",
+          "oklch(49% 0.0409 28.72)",
+          "oklch(61% 0.0409 28.72)",
+          "oklch(72% 0.0409 28.72)",
+          "oklch(84% 0.0262 28.72)",
+          "oklch(95% 0.0082 28.72)"
+        ]
+      },
+      "recording-ink": {
+        "role": "state",
+        "displayName": "Recording ink",
+        "tonalRamp": [
+          "oklch(15% 0.0141 38.34)",
+          "oklch(26% 0.0297 38.34)",
+          "oklch(38% 0.0467 38.34)",
+          "oklch(49% 0.0495 38.34)",
+          "oklch(61% 0.0495 38.34)",
+          "oklch(72% 0.0495 38.34)",
+          "oklch(84% 0.0317 38.34)",
+          "oklch(95% 0.0099 38.34)"
+        ]
+      },
+      "camera-overlay": {
+        "role": "neutral",
+        "displayName": "Camera overlay",
+        "tonalRamp": [
+          "oklch(15% 0.0017 196.69)",
+          "oklch(26% 0.0037 196.69)",
+          "oklch(38% 0.0058 196.69)",
+          "oklch(49% 0.0061 196.69)",
+          "oklch(61% 0.0061 196.69)",
+          "oklch(72% 0.0061 196.69)",
+          "oklch(84% 0.0039 196.69)",
+          "oklch(95% 0.0012 196.69)"
+        ]
+      },
+      "focus": {
+        "role": "state",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0.0156 121.07)",
+          "oklch(26% 0.0328 121.07)",
+          "oklch(38% 0.0515 121.07)",
+          "oklch(49% 0.0546 121.07)",
+          "oklch(61% 0.0546 121.07)",
+          "oklch(72% 0.0546 121.07)",
+          "oklch(84% 0.0350 121.07)",
+          "oklch(95% 0.0109 121.07)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Condensed display",
+        "purpose": "Large welcome headline."
+      },
+      "headline": {
+        "displayName": "Page headline",
+        "purpose": "Titles that introduce the current task."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Working section hierarchy."
+      },
+      "body": {
+        "displayName": "Working body",
+        "purpose": "Ordinary prose and controls."
+      },
+      "label": {
+        "displayName": "Secondary label",
+        "purpose": "Help and consent explanation."
+      },
+      "actor-line": {
+        "displayName": "Actor dialogue",
+        "purpose": "The strongest spoken-script text."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "micro",
+        "value": "150ms",
+        "purpose": "Button tone and border state changes."
+      },
+      {
+        "name": "short",
+        "value": "240ms",
+        "purpose": "Dialogue replacement."
+      },
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Dialogue entrance easing."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation:none; transition:none; scroll-behavior:auto",
+        "purpose": "Global prefers-reduced-motion fallback."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "desktop-minimum",
+        "value": "960px \u00d7 680px"
+      },
+      {
+        "name": "compact-width",
+        "value": "1100px"
+      },
+      {
+        "name": "stacked-fallback",
+        "value": "800px"
+      },
+      {
+        "name": "compact-height",
+        "value": "max-height:800px and min-width:801px"
+      },
+      {
+        "name": "wide-gutters",
+        "value": "1600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action for the current rehearsal task.",
+      "html": "<button class=\"ds-primary\">Start a rehearsal</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:5px;font-family:var(--font-body);font-size:15px;line-height:1.4;cursor:pointer;transition:background-color var(--duration-micro),color var(--duration-micro),border-color var(--duration-micro);background:var(--color-mint);color:var(--color-green);border:1px solid var(--color-mint);font-weight:600}.ds-primary:hover{background:var(--color-mint-hover);border-color:var(--color-mint-hover)}.ds-primary:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}.ds-primary:active{transform:translateY(1px)}.ds-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A visible supporting action with transparent fill and a thin border.",
+      "html": "<button class=\"ds-secondary\">Stop camera</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:5px;font-family:var(--font-body);font-size:15px;line-height:1.4;cursor:pointer;transition:background-color var(--duration-micro),color var(--duration-micro),border-color var(--duration-micro);background:transparent;color:var(--color-white);border:1px solid var(--color-border)}.ds-secondary:hover{background:var(--color-panel-hover);border-color:var(--color-muted)}.ds-secondary:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}.ds-secondary:active{transform:translateY(1px)}.ds-secondary:disabled{opacity:.45;cursor:not-allowed;transform:none}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "description": "A low-emphasis action without a visible border at rest.",
+      "html": "<button class=\"ds-text\">How it works</button>",
+      "css": ".ds-text{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:5px;font-family:var(--font-body);font-size:15px;line-height:1.4;cursor:pointer;transition:background-color var(--duration-micro),color var(--duration-micro),border-color var(--duration-micro);background:transparent;color:var(--color-white);border:1px solid transparent}.ds-text:hover{background:var(--color-panel-hover)}.ds-text:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}.ds-text:active{transform:translateY(1px)}@media(prefers-reduced-motion:reduce){.ds-text{transition:none}}"
+    },
+    {
+      "name": "Consent checkbox",
+      "kind": "input",
+      "description": "A native, separately labeled permission control.",
+      "html": "<label class=\"ds-consent\"><input type=\"checkbox\"/><span>Also record a silent video of my take.<small>Optional, off by default. No microphone access.</small></span></label>",
+      "css": ".ds-consent{display:flex;align-items:flex-start;gap:12px;padding:20px 0;border-bottom:1px solid var(--color-border);color:var(--color-white);font-family:var(--font-body);font-size:15px;line-height:1.6;cursor:pointer}.ds-consent input{width:19px;height:19px;flex-shrink:0;accent-color:var(--color-mint)}.ds-consent input:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}.ds-consent small{display:block;margin-top:4px;font-size:13px;color:var(--color-muted)}"
+    },
+    {
+      "name": "Take comparison select",
+      "kind": "input",
+      "refersTo": "select",
+      "description": "A compact native selection field.",
+      "html": "<label class=\"ds-select-label\">Compare takes <select class=\"ds-select\"><option>Choose a take</option></select></label>",
+      "css": ".ds-select-label{font-family:var(--font-body);font-size:13px;color:var(--color-white)}.ds-select{font:inherit;padding:8px 12px;color:var(--color-white);background:var(--color-panel);border:1px solid var(--color-border);border-radius:4px;max-width:100%}.ds-select:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}"
+    },
+    {
+      "name": "Studio navigation",
+      "kind": "nav",
+      "description": "Plain task destinations with an active underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><button aria-current=\"page\">Rehearsal studio</button><button>My takes</button></nav>",
+      "css": ".ds-nav{display:flex;gap:24px;min-height:64px;font-family:var(--font-body)}.ds-nav button{position:relative;font:inherit;font-size:15px;min-height:44px;border:0;border-radius:0;padding:0;background:transparent;color:var(--color-muted);cursor:pointer}.ds-nav button[aria-current]{color:var(--color-white)}.ds-nav button[aria-current]:after{content:\"\";position:absolute;inset:auto 0 0;height:2px;background:var(--color-mint)}.ds-nav button:hover{color:var(--color-white)}.ds-nav button:focus-visible{outline:3px solid var(--color-focus);outline-offset:4px;}"
+    },
+    {
+      "name": "Performance cue panel",
+      "kind": "custom",
+      "refersTo": "cue-panel",
+      "description": "A readable cue and immediate state message attached to the script.",
+      "html": "<section class=\"ds-cue\" aria-live=\"polite\"><strong>Your performance cue: surprise</strong><p>Perform the cue and hold it briefly.</p></section>",
+      "css": ".ds-cue{background:var(--color-mint);color:var(--color-green);padding:16px 24px;font-family:var(--font-body);font-size:13px;line-height:1.5}.ds-cue strong{font-weight:600}.ds-cue p{margin:8px 0 0}"
+    },
+    {
+      "name": "Transition provenance",
+      "kind": "chip",
+      "description": "Text identifies an accepted observation without implying artistic quality.",
+      "html": "<span class=\"ds-transition\">Accepted SDK observation</span>",
+      "css": ".ds-transition{font-family:var(--font-body);font-size:12px;color:var(--color-mint)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The rehearsal studio",
+    "overview": "I use the visual language of a working rehearsal room: a quiet monitor surface, a legible script and a restrained cue color. Film influence lives in the condensed titles and the separation of camera, dialogue and controls. Familiar controls keep the visual identity subordinate to the actor's task.\n\nThis records the implemented system in `src/styles.css` and `src/ui/App.tsx`. The final Cuelira name and tagline remain fixed. Page-specific composition belongs to the surface brief; future screens inherit the palette, typography and component behavior rather than reproducing one layout everywhere.",
+    "keyCharacteristics": [
+      "Condensed film-title typography paired with plain working text.",
+      "Dark studio surfaces and a pale, high-contrast script.",
+      "Mint as an action, cue and accepted-state color.",
+      "Flat tonal hierarchy, compact controls and deliberate state motion.",
+      "Explicit captions, camera status and manual-action provenance."
+    ],
+    "rules": [
+      {
+        "name": "The State Has Words Rule",
+        "body": "Pair signal colors with explicit text. An accepted observation, manual continuation, camera-off state or error must remain understandable without color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Working Text Rule",
+        "body": "Use Public Sans for dialogue, buttons, labels and measurements; condensed type is for identity and titles. Timers and event timestamps use tabular numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Studio Rule",
+        "body": "Keep ordinary surfaces shadow-free. Use the existing tone and border roles to express grouping and state.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use the existing color and font roles through the root CSS tokens.",
+      "Do keep the primary rehearsal controls reachable at the supported minimum window size.",
+      "Do preserve speaker captions and honest manual-versus-SDK labels.",
+      "Do provide immediate keyboard focus and honor reduced motion.",
+      "Do show a genuine unavailable or camera-off state when evidence is absent."
+    ],
+    "donts": [
+      "Don't replace the fixed Cuelira name, tagline or original mark.",
+      "Don't introduce generic AI illustrations, random gradients or unnecessary neon.",
+      "Don't use decorative animation that competes with dialogue or live observation.",
+      "Don't turn expression categories into psychological or acting-quality judgments.",
+      "Don't treat inherited small footer/data text or reduced footer hit areas as a new accessibility standard."
+    ]
+  }
+}
