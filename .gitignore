@@ -17,6 +17,7 @@ video/footage/
 video/render/
 video/public/generated/
 video/public/footage
+video/node_modules
 *.webm
 *.mp4
 *.db

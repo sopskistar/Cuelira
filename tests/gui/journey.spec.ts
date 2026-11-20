@@ -42,8 +42,13 @@ test("manual journey is honest, complete, exportable and deletable", async ({
     page.getByRole("button", { name: "Continue manually" }),
   ).toBeDisabled();
   await page.getByRole("button", { name: "Resume scene" }).click();
-  for (let i = 0; i < 3; i++)
+  for (let i = 0; i < 3; i++) {
     await page.getByRole("button", { name: "Continue manually" }).click();
+    if (i === 0)
+      await expect(page.locator(".scene-announcement")).toContainText(
+        "I knew you would leave if you read it",
+      );
+  }
   await expect(page.getByText("Scene complete", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Finish & review take" }).click();
   await expect(

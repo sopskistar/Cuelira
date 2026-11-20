@@ -408,6 +408,18 @@ export function App() {
     !observation.reason &&
     Date.now() - observation.capturedAt <= 1200;
   const beat = scene[e?.beat ?? 0];
+  const lastTransition = e?.take.events
+    .filter((event) => event.type === "accepted" || event.type === "manual")
+    .at(-1);
+  // Announce authored dialogue once per transition, not rapidly changing metrics.
+  const sceneAnnouncement =
+    e?.phase === "completed"
+      ? `Scene complete. Rowan: ${scene[2].response} Alex's closing line: ${closing}`
+      : e?.phase === "paused"
+        ? `Scene paused. Camera ${stream ? "remains on" : "is off"}.`
+        : e?.phase === "error"
+          ? "Camera or SDK interrupted. Retry capture or continue manually."
+          : `${lastTransition ? `${lastTransition.type === "manual" ? "Manual continuation" : "Accepted SmartSpectra cue"}. Rowan: ${scene[lastTransition.beat].response} ` : "Scene begins. "}Beat ${(e?.beat ?? 0) + 1}: ${beat.title}. Rowan: ${beat.partner} Performance cue: ${beat.cue}.`;
   const transitions =
     selected?.events.filter(
       (v) => v.type === "accepted" || v.type === "manual",
@@ -766,6 +778,14 @@ export function App() {
         )}
         {screen === "stage" && e && (
           <section className="stage">
+            <p
+              className="scene-announcement"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {sceneAnnouncement}
+            </p>
             <div className="stage-heading">
               <div>
                 <h1 tabIndex={-1}>The Last Message</h1>
@@ -859,7 +879,7 @@ export function App() {
                     </>
                   )}
                 </div>
-                <div className="cue-box" aria-live="polite">
+                <div className="cue-box">
                   <span>
                     {e.phase === "completed"
                       ? "Scene complete"
