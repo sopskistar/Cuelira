@@ -1,4 +1,32 @@
 # Logs
+# Cuelira private data and build products
+.env
+.env.*
+!.env.example
+dist/
+dist-electron/
+release/
+out/
+artifacts/
+test-results/
+playwright-report/
+coverage/
+private/
+recordings/
+video/footage/
+video/render/
+video/public/generated/
+video/public/footage
+*.webm
+*.mp4
+*.db
+*.sqlite*
+*.pem
+*.key
+*.tsbuildinfo
+.DS_Store
+.impeccable/config.local.json
+
 logs
 *.log
 npm-debug.log*

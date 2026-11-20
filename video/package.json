@@ -1,0 +1,8 @@
+{
+  "name": "cuelira-demo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "dependencies": { "@remotion/cli": "4.0.541", "remotion": "4.0.541", "react": "19.3.1", "react-dom": "19.3.1" },
+  "scripts": { "studio": "remotion studio src/index.tsx", "proof": "remotion render src/index.tsx BrandProof render/cuelira-brand-proof.mp4", "render": "node ../scripts/video.mjs render" }
+}
