@@ -15,6 +15,7 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run sdk:probe -- --build-only
+      - run: npm run sdk:native -- --list-only
       - run: npm test
       - run: npm run security
       - run: npx playwright install --with-deps chromium
@@ -36,6 +37,7 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run sdk:probe -- --build-only
+      - run: npm run sdk:native -- --list-only
       - run: npm test
       - run: npm run package:win
       - name: Verify packaged Windows app without camera or key

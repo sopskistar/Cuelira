@@ -1,5 +1,7 @@
 # Cuelira
 
+**Native recovery acceptance:** run `npm run sdk:native` in the Windows checkout for one direct SDK-owned camera test, with explicit Samsung selection and safe terminal counters. [Exact instructions and result meanings](docs/TESTING.md#single-direct-native-acceptance-test). Native Samsung expression delivery remains unverified until the actual hardware run passes; no speculative rehearsal integration has been enabled.
+
 ### Your scene responds to you.
 
 Cuelira is a live self-tape rehearsal partner that uses Presage SmartSpectra to make scripted scenes respond to an actor's facial expressions and provide take-by-take feedback.

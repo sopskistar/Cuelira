@@ -1,5 +1,31 @@
 # Testing and native Windows acceptance
 
+## Single direct-native acceptance test
+
+The latest supplied browser-probe evidence failed at both 720p and 480p with error 14 and validation 11. Both snapshots were **stopped**, with main samples **4.9–5.5 seconds old**; the 480p report retained cached 1280×720 dimensions. Those are not contemporaneous 480p measurements and do not locate the bottleneck.
+
+Close Cuelira and the browser SDK probe. In the existing **native Windows x64 checkout**, run this single test; keep the private `.env` as it is:
+
+```powershell
+git pull --ff-only origin main
+if ($LASTEXITCODE -ne 0) { throw 'Pull failed; preserve local changes before continuing.' }
+npm run sdk:native
+```
+
+The terminal lists **SDK-native** camera names and indices only. Select the Samsung index and type **YES** to confirm that device and consent. If Samsung cannot be identified in that list, type **n**; no other camera is selected. Keep your face toward the Samsung and perform a few deliberate expressions during the 30-second session. The SDK owns capture directly in a plain Node child; there is no Electron renderer, browser MediaStream, frame conversion/IPC pump, frame generator or automatic retry. `CameraSelection.byId()` uses the SDK-discovered opaque ID privately, with SDK camera defaults and no forced constraints. `CameraSelection.default` is verified in the installed API but deliberately not used for an explicit Samsung test.
+
+Copy the final terminal JSON. It distinguishes native discovery, selected safe name/index, whether `start()` returned, Running observed, capture-phase state/validation/error counts, metrics events, distinct scored expressions, fresh expressions, and fresh/stable/validation-OK expressions. No frame, landmark, category, confidence, ID, key or absolute timestamp is printed or saved. Native log text is suppressed. SDK telemetry is disabled; normal Presage processing disclosures still apply. `stopAsync()` and `destroy()` are awaited. A hung child is terminated by the controller after a bounded timeout, with an **inconclusive** result rather than a pass.
+
+**`PASS_FRESH_VALIDATED_EXPRESSIONS`** requires at least one distinct genuine fresh, stable, scored expression while Running with validation 0, no SDK errors, and completed cleanup. It establishes native expression delivery for that selected device/run, **not** a Cuelira cue or completed rehearsal. Empty/landmark-only packets and Running alone cannot pass. Stale/future timestamps, duplicate samples, unstable samples and validation warnings do not count as validated fresh expressions. If the result passes on the actual Samsung, native integration becomes the next step. Until then the existing app/scene/recording path is unchanged.
+
+If discovery fails or Samsung is not listed, the result records that capture was not attempted. If discovered but start/processing fails, the report preserves the stage and numeric codes (11 = low-frame-rate validation, 14 = sustained-low-frame-rate error, 7 = unavailable input). A missing key or timeout is inconclusive, not evidence of Samsung incompatibility. Do not switch to another device or silently fall back.
+
+Reference inspected: [Glimra native worker, revision 56a8ccf](https://github.com/0xaje/Glimra/blob/56a8ccf50b89ddc78ad09c0e6bacf66d5881576b/src/main/presageNativeWorker.cjs). It uses a Node child, faceMetrics, native discovery and `useCamera(CameraSelection.default)`; its gesture/landmark logic and automatic recovery were not copied. Landmark success on another session does not establish Samsung expression success. Public calls and teardown match installed SDK **3.5.0** types.
+
+Automated validation uses explicit protobuf fixtures and a test-only worker SDK double, plus **read-only real SDK discovery** (`npm run sdk:native -- --list-only`) in Linux/Windows CI. Discovery-only never opens a camera or establishes facial recognition. `--build-only` compiles without invoking the SDK. This WSL host exposed no Linux cameras; a read-only Windows SDK attempt through the WSL-shared development folder timed out before discovery returned. No camera capture was requested in that attempt, so it says nothing about Samsung native success/failure in the normal Windows checkout.
+
+Local validation for this native diagnostic: type/unused checks, application build, native-worker compilation and all **61 unit/integration tests passed**. The two worker lifecycle tests substitute an explicitly labeled SDK double only in the test build; the shipping launcher has no simulation option. The existing app, scene, recording consent and renderer SDK integration have not been changed or classified as verified. A positive native result still requires the actual Windows Samsung session and fresh validated stable expressions; an all-zero expression-score vector cannot pass.
+
 For the current Samsung preview/SDK discrepancy, use the short independent procedure in [SDK_BLOCKER_DIAGNOSIS.md](SDK_BLOCKER_DIAGNOSIS.md#short-windows-procedure) before any further production camera changes. The probe compares the same Samsung at 720p and 480p, measures preview during SDK operation and main handler timing, and separates true/false native callbacks from input handling. Its copyable report contains metadata only. `frameSentThrough(true)` frequency is not a physical-camera FPS measurement. [The support report](PRESAGE_SUPPORT_REPORT.md) is prepared, not sent.
 
 The independent probe adds three unit contract/metadata tests (53 total) and one native Electron no-key/fake-camera smoke case (six GUI cases total). Its smoke test verifies sandboxed startup, the hidden credential boundary, consent, cleanup and sanitized report shape, not authenticated recognition. Build the probe before running GUI tests on a clean checkout; `npm run check` and CI do so. The readiness UI's higher-rate canvas fixture is explicitly **synthetic 60 FPS**, giving the test render loop headroom; a nominal 30-FPS timer canvas repeatedly delivered a sub-25 window on this host. This changes no production rate, threshold, timestamp, counter or SDK input. Tests still use measured browser delivery and must pass the unchanged readiness gate; no synthetic fixture establishes Samsung support.
@@ -16,6 +42,7 @@ npm run typecheck
 npm run lint
 npm run build
 npm run sdk:probe -- --build-only
+npm run sdk:native -- --build-only
 npm test
 npx playwright install chromium
 npm run test:gui
