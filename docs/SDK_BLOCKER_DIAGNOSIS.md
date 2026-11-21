@@ -1,4 +1,6 @@
-# Final SDK blocker investigation
+# Historical SDK blocker investigation
+
+**Superseded:** Presage support has confirmed (as supplied by the user) that virtual cameras, including connected phones, are unsupported. Do not repeat phone/virtual-camera tests. The current action is the [single native physical-camera acceptance test](TESTING.md#single-direct-native-acceptance-test). A physical-native pass permits integration; Dell failure without an available USB webcam means blocked. The material below records the earlier investigation, not a current recommendation.
 
 **Classification: still undetermined.** There is no verified throughput fix yet. The new evidence rules out “the selected Samsung preview cannot deliver 30 FPS” as the explanation for the pre-SDK check. It does not identify the failing stage after SDK start, and a five-per-second native callback count is not itself a five-FPS camera measurement. No production capture architecture, SDK file, frame timestamp, cue threshold or validation check was changed in this investigation.
 
@@ -63,17 +65,9 @@ Main and renderer windows are asynchronous and separately timed; compare several
 
 The optional **`npm run sdk:probe -- --baseline`** mode removes the main per-frame timing observer and main loop monitor while retaining the same SDK, credential/consent boundary, preview and public SDK callbacks. Use it only if the observer-enabled probe behaves differently; it controls for instrumentation overhead. It cannot report main frame timings.
 
-### Short Windows procedure
+### Current Windows procedure
 
-Close Cuelira, keep the same Samsung connected, then in the existing Windows checkout:
-
-```powershell
-git pull --ff-only origin main
-if ($LASTEXITCODE -ne 0) { throw 'Preserve local changes / resolve pull before continuing.' }
-npm run sdk:probe
-```
-
-No reinstall or private-key edit is needed if the previous checkout already runs. Consent, open the camera to reveal names, stop, select **Samsung**, reopen at **720p**, and click **Start official SDK**. Keep the preview visible. After the outcome, click **Show sanitized report for copying**, then copy the selected text manually. Stop, select **480p**, reopen the **same Samsung**, and repeat. Start is deliberately independent of Cuelira's camera-readiness gate; the SDK's real safety checks and validation remain enabled. No automatic restart or simulated success is provided.
+Use the [physical-camera native acceptance test](TESTING.md#single-direct-native-acceptance-test). The previous Samsung 720p/480p comparison procedure has been withdrawn following Presage's compatibility clarification.
 
 ### Interpretation before any production change
 
@@ -91,7 +85,7 @@ No reinstall or private-key edit is needed if the previous checkout already runs
 
 At 720p RGBA is **3,686,400 bytes/frame**, about **105.5 MiB/sec at 30 FPS** for each full-buffer copy. At 640×480 it is **1,228,800 bytes/frame**, about **35.2 MiB/sec**. That is one third the pixel payload, **not a promised threefold speedup**. The documented host-stream API permits custom resolution. The public face-analysis model description does not specify a universal minimum resolution or certify 480p expression equivalence. Therefore a higher main message rate alone is insufficient: require genuine, fresh, stable, validation-OK expression samples and then the three real accepted Cuelira cues at the actual negotiated size. The user has not supplied this comparison yet.
 
-Main-process capture is a **documented alternative**: the installed public main SDK exposes `SmartSpectraSDK.availableCameras()`, `CameraSelection.byId(nativeId)` and `useCamera(selection,{width,height,fps})`. This bypasses browser extraction and renderer→main raw-frame IPC. Browser device IDs must never be reused as native IDs; native discovery must expose the same Samsung source, which is not established. Neither `desktopCapturer` nor an offscreen renderer is automatically a physical-camera replacement or a proven latency fix. No architecture migration was made. Only consider it after the reduced-host result, native discovery on the user's machine, valid expressions and a measured throughput comparison justify it.
+Main-process capture is a **documented alternative**: the installed public main SDK exposes `SmartSpectraSDK.availableCameras()`, `CameraSelection.byId(nativeId)` and `useCamera(selection,{width,height,fps})`. This bypasses browser extraction and renderer→main raw-frame IPC. Browser device IDs must never be reused as native IDs; the current test must select a physical built-in or USB camera, since virtual/phone inputs are unsupported. Neither `desktopCapturer` nor an offscreen renderer is automatically a physical-camera replacement or a proven latency fix. No architecture migration was made. Only consider it after the reduced-host result, native discovery on the user's machine, valid expressions and a measured throughput comparison justify it.
 
 ## Status and sources
 

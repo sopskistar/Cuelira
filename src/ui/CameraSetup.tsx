@@ -52,6 +52,6 @@ export function CameraSetup({ devices, device, profile, report, active, busy, co
       {devices.length > 0 && <button disabled={!consent || busy || active} onClick={onRefresh}>Refresh cameras</button>}
       <button className="primary" disabled={busy || !checked || !report?.ready} onClick={onStart}>Start SmartSpectra</button>
     </div>
-    <p className="small">Stop before changing camera or capture target. For low FPS, improve front lighting and close other camera or heavy apps. If Dell stays slow, choose the Samsung when Windows lists it, or another 30-FPS webcam. A lower resolution does not guarantee higher FPS.</p>
+    <p className="small">Presage supports physical built-in or directly connected USB webcams, not virtual/phone cameras. Run the native physical-camera acceptance test before further capture changes. A lower resolution does not guarantee higher FPS.</p>
   </section>;
 }

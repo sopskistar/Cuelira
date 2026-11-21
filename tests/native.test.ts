@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Metrics } from "@smartspectra/node-sdk/messages";
 import { ProcessingStatus, ValidationCode } from "@smartspectra/node-sdk/renderer";
-import { NativeCounts, nativeCameraName, nativeVerdict } from "../tools/native-sdk/counts";
+import { NativeCounts, nativeCameraName, nativeVerdict, unsupportedNativeCamera } from "../tools/native-sdk/counts";
 
 // Explicit protobuf fixtures only; none establish a real camera or SDK session.
 const now = 1800000000000;
@@ -58,8 +58,14 @@ describe("native acceptance counters — synthetic protobuf fixtures, no hardwar
     const counts = new NativeCounts(); counts.state(3); counts.validate(0); counts.metrics(bytes(), now);
     const report = JSON.stringify(counts.snapshot());
     expect(report).not.toMatch(/timestamp|landmarks|confidence|scores|surprise|deviceId|apiKey/);
-    expect(nativeCameraName("Samsung\u202e\u001b\n (1234:abcd)", 1)).toBe("Samsung");
+    expect(nativeCameraName("USB Webcam\u202e\u001b\n (1234:abcd)", 1)).toBe("USB Webcam");
     expect(nativeCameraName(null, 2)).toBe("Unnamed native camera 2");
     expect(nativeCameraName("x".repeat(300), 0)).toHaveLength(100);
+  });
+  it("flags known virtual/phone labels without claiming unknown labels prove physical hardware", () => {
+    for (const name of ["Windows Virtual Camera", "OBS Virtual Camera", "Samsung Camera", "Galaxy S24 Ultra", "iPhone Camera", "Android Camera", "DroidCam", "Phone Link", "Vir\u0000tual Camera"])
+      expect(unsupportedNativeCamera(name)).toBe(true);
+    for (const name of ["OV01AS", "Integrated Webcam", "Logitech USB Webcam", null])
+      expect(unsupportedNativeCamera(name)).toBe(false);
   });
 });

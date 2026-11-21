@@ -70,6 +70,13 @@ export function nativeCameraName(name: string | null, index: number) {
     .replace(/\s*\([^)]*[0-9a-f]{4}:[0-9a-f]{4}[^)]*\)/gi, "").trim().slice(0, 100) || `Unnamed native camera ${index}`;
 }
 
+// The SDK has no physical/virtual type flag. Block recognizable virtual/phone
+// labels; other labels still require the user's explicit physical-device confirmation.
+export function unsupportedNativeCamera(name: string | null) {
+  const label = (name ?? "").replace(/[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g, "");
+  return /\b(?:virtual|obs|droidcam|iriun|epoccam|manycam|camo|continuity|phone|iphone|android|samsung|galaxy|s24|link to windows)\b/i.test(label);
+}
+
 export function nativeVerdict(counts: ReturnType<NativeCounts["snapshot"]>, cleanup: string) {
   if (cleanup !== "complete") return "INCONCLUSIVE_CLEANUP";
   if (Object.keys(counts.errorCodes).length) return "FAILED_SDK_ERROR";

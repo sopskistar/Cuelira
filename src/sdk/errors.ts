@@ -3,7 +3,7 @@ import { SmartSpectraErrorCode as Code } from "@smartspectra/node-sdk/renderer";
 // Fixed, actionable text: native diagnostics may contain paths or credentials.
 export function sdkFailure(code: unknown, retryable = false): string {
   if (code === Code.kSustainedLowFrameRate)
-    return "SmartSpectra error 14 — sustained low frame rate (kSustainedLowFrameRate). Capture stopped because frame delivery stayed too slow. Stop and recheck FPS; choose a color RGB or connected phone camera that sustains about 25+ FPS (target 30). Add even front lighting, close other camera/CPU-heavy apps, keep Cuelira in the foreground and try the other capture mode. Start again yourself after the check; no automatic retry.";
+    return "SmartSpectra error 14 — sustained low frame rate (kSustainedLowFrameRate). The SDK could not sustain reliable processing; advertised webcam FPS alone does not establish processing throughput. Use the native physical built-in/USB webcam acceptance test; Presage does not support virtual or connected-phone cameras. Target sustained 25+ FPS, preferably 30. Start again yourself after the check; no automatic retry.";
   if (code === Code.kAuthenticationFailed)
     return "SmartSpectra authentication failed (2). Check your private developer key and its access, then restart Cuelira. Never share the key.";
   if (code === Code.kMetricNotAuthorized)

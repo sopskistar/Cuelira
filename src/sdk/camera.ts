@@ -60,8 +60,8 @@ export function cameraSummary(track: MediaStreamTrack): CameraReport {
     measuredFps: null, lowestWindowFps: null, windows: 0,
     ready: false, phase: "measuring",
     warning: infrared
-      ? "This label suggests an infrared/depth camera. Select the normal RGB camera or a connected phone webcam."
-      : "Confirm the preview is the intended color camera. A device name alone cannot verify RGB or Samsung compatibility.",
+      ? "This label suggests an infrared/depth camera. Select a physical RGB built-in or directly connected USB webcam."
+      : "Confirm this is your physical color webcam. A label alone cannot verify device type; virtual/phone cameras are unsupported by Presage.",
   };
 }
 

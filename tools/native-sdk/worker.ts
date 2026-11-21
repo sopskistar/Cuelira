@@ -2,7 +2,7 @@
 // renderer, MediaStream, raw-frame IPC, recovery loop or timestamp rewriting.
 import { config } from "dotenv";
 import path from "node:path";
-import { NativeCounts, nativeCameraName, nativeVerdict } from "./counts";
+import { NativeCounts, nativeCameraName, nativeVerdict, unsupportedNativeCamera } from "./counts";
 import type { CameraInfo, SmartSpectraSDK as NativeSdk } from "@smartspectra/node-sdk";
 
 config({ path: path.resolve(__dirname, "../../.env"), quiet: true });
@@ -28,7 +28,8 @@ async function finish(reason: string) {
     try { if (sdk) await sdk.destroy(); } catch { cleanup = "failed"; }
     sdk = null;
     emit({ type: "summary", reason, stage, selected, sdkStartReturned: startReturned, cleanup,
-      verdict: reason === "completed" || reason === "sdk-error" || reason === "startup-error"
+      verdict: reason === "unsupported-virtual-camera" ? "UNSUPPORTED_VIRTUAL_CAMERA"
+        : reason === "completed" || reason === "sdk-error" || reason === "startup-error"
         ? nativeVerdict(counts.snapshot(), cleanup) : `INCONCLUSIVE_${reason.toUpperCase().replaceAll("-", "_")}`,
       counts: counts.snapshot() });
     process.disconnect?.();
@@ -42,19 +43,21 @@ async function main() {
   stage = "native-discovery";
   cameras = SmartSpectraSDK.availableCameras();
   emit({ type: "discovery", sdkVersion: SmartSpectraSDK.version,
-    cameras: cameras.map((c, index) => ({ index, name: nativeCameraName(c.name === c.id ? null : c.name, index) })) });
+    cameras: cameras.map((c, index) => ({ index, name: nativeCameraName(c.name === c.id ? null : c.name, index),
+      blockedAsVirtual: unsupportedNativeCamera(c.name) })) });
   stage = "waiting-for-selection";
   process.on("message", message => {
-    const m = message as { type?: string; index?: unknown; consent?: unknown } | null;
+    const m = message as { type?: string; index?: unknown; consent?: unknown; physicalCameraConfirmed?: unknown } | null;
     if (!m || typeof m !== "object") return;
     if (m.type === "stop") { void finish("canceled"); return; }
     if (m.type !== "start" || attempted || closing) return;
     attempted = true;
-    if (m.consent !== true || !Number.isInteger(m.index) || typeof m.index !== "number" || !cameras[m.index]) {
+    if (m.consent !== true || m.physicalCameraConfirmed !== true || !Number.isInteger(m.index) || typeof m.index !== "number" || !cameras[m.index]) {
       void finish("invalid-selection-or-consent"); return;
     }
     const camera = cameras[m.index];
     selected = { index: m.index, name: nativeCameraName(camera.name === camera.id ? null : camera.name, m.index) };
+    if (unsupportedNativeCamera(camera.name)) { void finish("unsupported-virtual-camera"); return; }
     const key = process.env.PRESAGE_API_KEY || process.env.SMARTSPECTRA_API_KEY || "";
     if (!key.trim() || key.startsWith("replace_")) { void finish("missing-key"); return; }
     try {

@@ -1,6 +1,6 @@
 # Cuelira
 
-**Native recovery acceptance:** run `npm run sdk:native` in the Windows checkout for one direct SDK-owned camera test, with explicit Samsung selection and safe terminal counters. [Exact instructions and result meanings](docs/TESTING.md#single-direct-native-acceptance-test). Native Samsung expression delivery remains unverified until the actual hardware run passes; no speculative rehearsal integration has been enabled.
+**Final physical-camera acceptance:** Presage support confirms that virtual cameras, including phones through Windows Virtual Camera, are unsupported. Run `npm run sdk:native` in the Windows checkout and explicitly select the Dell built-in webcam or a directly connected USB webcam. [One-test instructions and go/no-go rule](docs/TESTING.md#single-direct-native-acceptance-test). Physical native expression delivery remains unverified until that real hardware test passes; the existing rehearsal is unchanged.
 
 ### Your scene responds to you.
 
@@ -8,9 +8,9 @@ Cuelira is a live self-tape rehearsal partner that uses Presage SmartSpectra to 
 
 [Run locally](#run-locally-native-windows) | [Verify the live SDK](docs/TESTING.md) | [Judge walkthrough](docs/JUDGE_WALKTHROUGH.md) | [Readiness](docs/FINAL_READINESS.md)
 
-**Current evidence:** Electron app, independent SDK probe, 53 unit/integration tests, six local GUI cases, and a [previous passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44877251493). The user reports genuine Dell and Samsung previews and brief Running, then sustained-low-FPS error 14. **Genuine expression recognition, accepted live cues and Samsung SDK recognition remain UNVERIFIED; the final demo video is INCOMPLETE.** An authenticated live rehearsal and actual performance footage are still required.
+**Current evidence:** Electron app, native acceptance diagnostic, automated regression tests and a [previous passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44914798837). **Genuine physical-camera expression recognition and accepted live cues remain UNVERIFIED; the final demo video is INCOMPLETE.** An authenticated live rehearsal and actual performance footage are still required.
 
-**Latest Samsung evidence:** the user reports a working 720p preview at 29.3 FPS (lowest window 29.0), then error 14 with no valid expression metrics. Five true native callbacks/sec is **not** a verified camera-FPS reading. [The blocker diagnosis and independent SDK probe](docs/SDK_BLOCKER_DIAGNOSIS.md) separate those measurements; the cause remains undetermined.
+**Compatibility decision:** the virtual-camera investigation is closed as unsupported, based on Presage's clarification supplied by the user. A working browser preview does not establish SDK compatibility. Do not repeat phone/virtual-camera tests. If native physical capture fails on the Dell and no directly connected USB webcam is available, the project is **blocked**; stop speculative development.
 
 ![Real Cuelira Electron application, camera off](assets/screenshots/electron-welcome.png)
 
@@ -40,7 +40,7 @@ For UI-only development, `npm run dev` opens a clearly labeled browser preview. 
 
 ## Verify a genuine take
 
-1. Start Cuelira, consent, then Enable camera for the temporary local FPS check. Stop, refresh and select the Dell or a Windows-exposed phone webcam, then check the selected camera. All four measured windows must reach 25 FPS (target 30). Click Start SmartSpectra after the check passes; SDK validation and genuine metrics are still required. Recording is a separate optional checkbox, off by default.
+1. Run the single native physical-camera acceptance test above first. Select the Dell built-in or directly connected USB webcam; virtual/phone cameras are unsupported. Only after a genuine native pass should that path be integrated into the rehearsal. Recording remains a separate optional consent, off by default.
 2. Wait for **Running and fresh facial metrics**, not just a webcam preview.
 3. Begin the scene, speak Alex's lines and perform surprise, angry, then a deliberate non-neutral → neutral return. Let each armed cue stabilize.
 4. Confirm Rowan answers **because of an accepted observation**. Wrong/no-face/stale cues must not pass. Manual continuation must remain labeled manual.
