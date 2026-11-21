@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:; media-src 'self' blob:; connect-src 'none'; style-src 'self'" />
+<title>Independent SmartSpectra 3.5.0 probe</title><link rel="stylesheet" href="probe.css" /></head><body>
+<h1>Independent SmartSpectra 3.5.0 probe</h1>
+<p>Official SDK pipeline, no Cuelira UI/engine/storage/recorder. No diagnostic frames or reports saved or uploaded. SDK telemetry off; normal Presage authentication/processing disclosures still apply. No Insights prompts.</p>
+<label><input id="consent" type="checkbox" /> I consent to this live camera and SDK diagnostic under Cuelira's existing processing disclosure.</label>
+<p><label>Camera <select id="camera"><option value="">System default</option></select></label>
+<label>Target <select id="profile"><option value="720">1280 × 720 / 30 FPS</option><option value="480">640 × 480 / 30 FPS (comparison)</option></select></label></p>
+<button id="open" disabled>Open selected camera</button>
+<button id="start" disabled>Start official SDK</button>
+<button id="stop" disabled>Stop</button>
+<p id="status" role="status">Camera off. Diagnostic only; no recognition claimed.</p>
+<video id="preview" width="320" height="180" autoplay playsinline muted aria-label="Diagnostic camera preview"></video>
+<p>Rates below are distinct: compositor preview, main handlers, and native callbacks. The last is not a physical camera FPS measurement. Data updates every two seconds, including during SDK capture.</p>
+<pre id="report" aria-label="Sanitized diagnostic report"></pre>
+<button id="snapshot">Show sanitized report for copying</button>
+<p><label>Last 30 diagnostic windows (metadata only; select and copy manually)<br />
+<textarea id="snapshot-text" rows="12" cols="95" readonly></textarea></label></p>
+<script src="renderer.js"></script></body></html>

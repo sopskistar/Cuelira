@@ -6,7 +6,9 @@ Cuelira is a live self-tape rehearsal partner that uses Presage SmartSpectra to 
 
 [Run locally](#run-locally-native-windows) | [Verify the live SDK](docs/TESTING.md) | [Judge walkthrough](docs/JUDGE_WALKTHROUGH.md) | [Readiness](docs/FINAL_READINESS.md)
 
-**Current evidence:** Electron app with camera selection and delivered-FPS diagnostics, 50 unit/integration tests, five local GUI tests, and a [previous passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44661497725). The user reports a genuine Dell preview and brief Running, then sustained-low-FPS error 14. **Genuine expression recognition, accepted live cues and Samsung camera compatibility remain UNVERIFIED; the final demo video is INCOMPLETE.** An authenticated live rehearsal and actual performance footage are still required.
+**Current evidence:** Electron app, independent SDK probe, 53 unit/integration tests, six local GUI cases, and a [previous passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44877251493). The user reports genuine Dell and Samsung previews and brief Running, then sustained-low-FPS error 14. **Genuine expression recognition, accepted live cues and Samsung SDK recognition remain UNVERIFIED; the final demo video is INCOMPLETE.** An authenticated live rehearsal and actual performance footage are still required.
+
+**Latest Samsung evidence:** the user reports a working 720p preview at 29.3 FPS (lowest window 29.0), then error 14 with no valid expression metrics. Five true native callbacks/sec is **not** a verified camera-FPS reading. [The blocker diagnosis and independent SDK probe](docs/SDK_BLOCKER_DIAGNOSIS.md) separate those measurements; the cause remains undetermined.
 
 ![Real Cuelira Electron application, camera off](assets/screenshots/electron-welcome.png)
 

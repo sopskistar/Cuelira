@@ -1,5 +1,11 @@
 # Testing and native Windows acceptance
 
+For the current Samsung preview/SDK discrepancy, use the short independent procedure in [SDK_BLOCKER_DIAGNOSIS.md](SDK_BLOCKER_DIAGNOSIS.md#short-windows-procedure) before any further production camera changes. The probe compares the same Samsung at 720p and 480p, measures preview during SDK operation and main handler timing, and separates true/false native callbacks from input handling. Its copyable report contains metadata only. `frameSentThrough(true)` frequency is not a physical-camera FPS measurement. [The support report](PRESAGE_SUPPORT_REPORT.md) is prepared, not sent.
+
+The independent probe adds three unit contract/metadata tests (53 total) and one native Electron no-key/fake-camera smoke case (six GUI cases total). Its smoke test verifies sandboxed startup, the hidden credential boundary, consent, cleanup and sanitized report shape, not authenticated recognition. Build the probe before running GUI tests on a clean checkout; `npm run check` and CI do so. The readiness UI's higher-rate canvas fixture is explicitly **synthetic 60 FPS**, giving the test render loop headroom; a nominal 30-FPS timer canvas repeatedly delivered a sub-25 window on this host. This changes no production rate, threshold, timestamp, counter or SDK input. Tests still use measured browser delivery and must pass the unchanged readiness gate; no synthetic fixture establishes Samsung support.
+
+Investigation validation: lint/type checking, the application build, standalone-probe compilation and **53 unit tests passed**. All **six GUI cases passed across split runs**, including the final higher-rate synthetic camera-selection fixture and the independent probe's native Electron smoke case. The latter used an explicitly fake camera and no developer key; no authenticated SDK frame processing or facial recognition was established. The tracked-source security scan reported zero findings across 118 files; whitespace checks passed. The probe screenshot was inspected for readable counters and copyable metadata. The diagnosis remains undetermined pending the real Windows probe results.
+
 I distinguish automated fixtures, real desktop startup and live camera evidence. No automated result below establishes recognition on a human face.
 
 ## Reproduce the automated checks
@@ -9,6 +15,7 @@ npm ci
 npm run typecheck
 npm run lint
 npm run build
+npm run sdk:probe -- --build-only
 npm test
 npx playwright install chromium
 npm run test:gui

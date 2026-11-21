@@ -7,7 +7,7 @@ export function CameraReadings({ report }: { report: CameraReport }) {
     <div><dt>Requested / negotiated FPS</dt><dd>{report.requestedFps} / {report.negotiatedFps?.toFixed(1) ?? "Not reported"}</dd></div>
     <div><dt>Measured preview FPS (before SDK)</dt><dd>{report.measuredFps?.toFixed(1) ?? "Measuring…"}</dd></div>
     <div><dt>Lowest 2-second window</dt><dd>{report.lowestWindowFps?.toFixed(1) ?? "Measuring…"} FPS ({report.windows}/4)</dd></div>
-    {report.sdkFps !== undefined && <div><dt>SDK input callbacks / second</dt><dd>{report.sdkFps.toFixed(1)} (last 2 seconds)</dd></div>}
+    {report.sdkFps !== undefined && <div><dt>Native callbacks (true) / second</dt><dd>{report.sdkFps.toFixed(1)} (last 2 seconds; not camera FPS)</dd></div>}
   </dl>;
 }
 

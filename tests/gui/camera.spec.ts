@@ -13,7 +13,7 @@ test("camera selection and readiness using explicitly synthetic browser camera f
     Object.defineProperty(navigator, "mediaDevices", { value: {
       enumerateDevices: async () => fixture.consent ? [
         { kind: "videoinput", deviceId: "dell-test", label: "Dell camera (synthetic 10 FPS fixture)" },
-        { kind: "videoinput", deviceId: "phone-test", label: "Samsung camera (synthetic 30 FPS fixture)" },
+        { kind: "videoinput", deviceId: "phone-test", label: "Samsung camera (synthetic 60 FPS fixture)" },
         { kind: "audioinput", deviceId: "mic-test", label: "Should never appear" },
       ] : [],
       getUserMedia: async (constraints: MediaStreamConstraints) => {
@@ -21,7 +21,10 @@ test("camera selection and readiness using explicitly synthetic browser camera f
         fixture.requests.push(constraints);
         const camera = constraints.video as MediaTrackConstraints;
         const phone = (camera.deviceId as ConstrainDOMStringParameters)?.exact === "phone-test";
-        const fps = phone ? 30 : 10;
+        // Deliberately synthetic headroom for the readiness UI case: a timer-
+        // driven 30-FPS canvas can deliver <25 on a busy test host. Still use the
+        // actual production counter and unchanged 25-FPS gate; never fake it.
+        const fps = phone ? 60 : 10;
         const canvas = document.createElement("canvas");
         canvas.width = 640; canvas.height = 480;
         const ctx = canvas.getContext("2d")!;
@@ -41,7 +44,7 @@ test("camera selection and readiness using explicitly synthetic browser camera f
         const stop = track.stop.bind(track);
         track.stop = () => { clearInterval(timer); stop(); };
         track.getSettings = () => ({ ...settings(), deviceId: phone ? "phone-test" : "dell-test" });
-        Object.defineProperty(track, "label", { value: phone ? "Samsung camera (synthetic 30 FPS fixture)" : "Dell camera (synthetic 10 FPS fixture)" });
+        Object.defineProperty(track, "label", { value: phone ? "Samsung camera (synthetic 60 FPS fixture)" : "Dell camera (synthetic 10 FPS fixture)" });
         fixture.streams.push(stream);
         return stream;
       },

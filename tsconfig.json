@@ -16,6 +16,7 @@
     "src",
     "electron",
     "tests",
+    "tools/sdk-probe",
     "vite.config.ts",
     "playwright.config.ts"
   ]

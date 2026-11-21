@@ -17,11 +17,12 @@
     "start": "npm run build && electron .",
     "test": "vitest run",
     "test:gui": "playwright test",
-    "check": "npm run lint && npm run build && npm test && npm run test:gui",
+    "check": "npm run lint && npm run build && npm run sdk:probe -- --build-only && npm test && npm run test:gui",
     "package:win": "npm run build && electron-builder --win --x64 --publish never",
     "package:linux": "npm run build && electron-builder --linux --x64 --dir --publish never",
     "assets": "node scripts/brand.mjs",
     "security": "node scripts/security.mjs",
+    "sdk:probe": "node scripts/sdk-probe.mjs",
     "video:studio": "node scripts/video.mjs studio",
     "video:proof": "node scripts/video.mjs proof",
     "video:render": "node scripts/video.mjs render"
