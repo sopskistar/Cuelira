@@ -6,7 +6,7 @@ Cuelira is a live self-tape rehearsal partner that uses Presage SmartSpectra to 
 
 [Run locally](#run-locally-native-windows) | [Verify the live SDK](docs/TESTING.md) | [Judge walkthrough](docs/JUDGE_WALKTHROUGH.md) | [Readiness](docs/FINAL_READINESS.md)
 
-**Current evidence:** working Electron app, 36 unit/integration tests, four local GUI tests, and a [passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44661497725). **Genuine webcam recognition is NOT TESTED; the final demo video is INCOMPLETE.** I need an authenticated Windows camera run and actual performance footage before claiming submission readiness.
+**Current evidence:** Electron app with camera selection and delivered-FPS diagnostics, 50 unit/integration tests, five local GUI tests, and a [previous passing Windows installer/runtime CI run](https://github.com/sopskistar/Cuelira/actions/runs/44661497725). The user reports a genuine Dell preview and brief Running, then sustained-low-FPS error 14. **Genuine expression recognition, accepted live cues and Samsung camera compatibility remain UNVERIFIED; the final demo video is INCOMPLETE.** An authenticated live rehearsal and actual performance footage are still required.
 
 ![Real Cuelira Electron application, camera off](assets/screenshots/electron-welcome.png)
 
@@ -36,7 +36,7 @@ For UI-only development, `npm run dev` opens a clearly labeled browser preview. 
 
 ## Verify a genuine take
 
-1. Start Cuelira, consent to measurement, then Enable camera. Recording is a separate optional checkbox, off by default.
+1. Start Cuelira, consent, then Enable camera for the temporary local FPS check. Stop, refresh and select the Dell or a Windows-exposed phone webcam, then check the selected camera. All four measured windows must reach 25 FPS (target 30). Click Start SmartSpectra after the check passes; SDK validation and genuine metrics are still required. Recording is a separate optional checkbox, off by default.
 2. Wait for **Running and fresh facial metrics**, not just a webcam preview.
 3. Begin the scene, speak Alex's lines and perform surprise, angry, then a deliberate non-neutral → neutral return. Let each armed cue stabilize.
 4. Confirm Rowan answers **because of an accepted observation**. Wrong/no-face/stale cues must not pass. Manual continuation must remain labeled manual.

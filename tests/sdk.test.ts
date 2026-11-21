@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { Metrics, decodeMetrics } from "@smartspectra/node-sdk/messages";
 import { normalize } from "../src/core/normalize";
-import { faceMetrics } from "@smartspectra/node-sdk/renderer";
+import { faceMetrics, SmartSpectraErrorCode, SmartSpectraSDK } from "@smartspectra/node-sdk/renderer";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
@@ -41,5 +41,12 @@ describe("actual published SDK contracts (no live hardware)", () => {
     expect(require("@smartspectra/node-sdk/package.json").version).toBe(
       "3.5.0",
     );
+  });
+  it("uses the installed renderer's public stream API and exact error-14 enum", () => {
+    expect(SmartSpectraErrorCode.kSustainedLowFrameRate).toBe(14);
+    expect(typeof SmartSpectraSDK.prototype.useMediaStream).toBe("function");
+    // The published guide mentions readiness, but this renderer does not expose
+    // it. Do not invent a cast/private bridge call to reach the native method.
+    expect("checkDeviceReadiness" in SmartSpectraSDK.prototype).toBe(false);
   });
 });

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Rehearsal } from "../core/engine";
 import {
   scene,
@@ -11,6 +11,8 @@ import { LiveCapture } from "../sdk/live";
 import type { RuntimeInfo } from "../bridge";
 import { Icon, Mark } from "./Icon";
 import { TakeRecorder } from "./recorder";
+import { CameraSetup, CameraReadings } from "./CameraSetup";
+import type { CameraChoice, CameraProfile, CameraReport } from "../sdk/camera";
 
 type Screen =
   | "welcome"
@@ -46,15 +48,20 @@ function Preview({
   stream,
   recording,
   compact = false,
+  videoRef,
 }: {
   stream: MediaStream | null;
   recording: boolean;
   compact?: boolean;
+  videoRef?: RefObject<HTMLVideoElement | null>;
 }) {
-  const video = useRef<HTMLVideoElement>(null);
+  const localVideo = useRef<HTMLVideoElement>(null);
+  const video = videoRef ?? localVideo;
   useEffect(() => {
     if (video.current) {
-      video.current.srcObject = stream;
+      // Readiness attaches this same stream before React commits. Reattaching
+      // it here can abort the pending play() and falsely report camera failure.
+      if (video.current.srcObject !== stream) video.current.srcObject = stream;
       if (stream) void video.current.play().catch(() => {});
     }
   }, [stream]);
@@ -97,6 +104,11 @@ export function App() {
   const [recordConsent, setRecordConsent] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [sdkStatus, setSdkStatus] = useState("Camera off");
+  const [cameraReport, setCameraReport] = useState<CameraReport | null>(null);
+  const [cameras, setCameras] = useState<CameraChoice[]>([]);
+  const [cameraDevice, setCameraDevice] = useState("");
+  const [cameraProfile, setCameraProfile] = useState<CameraProfile>("720p");
+  const diagnosticVideo = useRef<HTMLVideoElement>(null);
   const [observation, setObservation] = useState<Observation | null>(null);
   const [mode, setMode] = useState<"live" | "manual">("live");
   const [busy, setBusy] = useState(false);
@@ -119,6 +131,8 @@ export function App() {
     capture.current = new LiveCapture({
       stream: setStream,
       status: setSdkStatus,
+      camera: setCameraReport,
+      cameras: setCameras,
       observation: (o) => {
         engine.current?.observe(o, Date.now());
         if (Date.now() - lastDisplay.current > 100 || o.reason) {
@@ -243,6 +257,24 @@ export function App() {
       engine.current?.recover(Date.now());
       if (screen !== "stage") setScreen("prepare");
     });
+  const checkCamera = () => run(async () => {
+    if (!cameraConsent) throw new Error("Camera consent is required");
+    if (!diagnosticVideo.current) throw new Error("Camera preview is unavailable. Open camera setup again.");
+    setObservation(null);
+    await window.cuelira?.consent(true, false); // Readiness never enables recording.
+    try {
+      await capture.current!.prepareCamera(diagnosticVideo.current, cameraDevice, cameraProfile);
+    } catch (error) {
+      await window.cuelira?.consent(false, false);
+      throw error;
+    }
+  });
+  const cancelCameraCheck = () => {
+    // Cancellation must remain available while the shared action runner is busy.
+    void capture.current!.stop()
+      .then(() => window.cuelira?.consent(false, false))
+      .catch(() => setError("Camera cleanup failed. Restart Cuelira before another live take."));
+  };
   const manualPrep = () =>
     run(async () => {
       await capture.current!.stop();
@@ -398,6 +430,15 @@ export function App() {
       );
     });
   const e = engine.current;
+  const cameraSetup = <CameraSetup devices={cameras} device={cameraDevice} profile={cameraProfile}
+    report={cameraReport} active={!!stream} busy={busy} consent={cameraConsent}
+    onDevice={setCameraDevice} onProfile={setCameraProfile} onCheck={checkCamera}
+    onStop={busy ? cancelCameraCheck : stopCamera}
+    onRefresh={() => void run(async () => {
+      if (!cameraConsent) throw new Error("Camera consent is required");
+      await window.cuelira?.consent(true, false);
+      await capture.current!.refreshCameras();
+    })} onStart={startCamera} />;
   const active = screen === "stage" || screen === "prepare" || !!stream;
   const ready =
     !!stream &&
@@ -573,6 +614,7 @@ export function App() {
                   <input
                     type="checkbox"
                     checked={cameraConsent}
+                    disabled={busy || !!stream}
                     onChange={(v) => setCameraConsent(v.target.checked)}
                   />
                   <span>
@@ -633,15 +675,7 @@ export function App() {
                   </p>
                 </details>
                 <div className="actions">
-                  <button
-                    className="primary"
-                    disabled={!cameraConsent || busy}
-                    onClick={startCamera}
-                  >
-                    <Icon name="camera" />
-                    {busy ? "Starting camera…" : "Enable camera"}
-                  </button>
-                  {busy && (
+                  {busy && !stream && (
                     <button
                       onClick={() => {
                         setNotice("Camera startup cancellation requested.");
@@ -663,7 +697,10 @@ export function App() {
                   </button>
                 </div>
               </div>
-              <Preview stream={stream} recording={false} compact />
+              <div>
+                <Preview stream={stream} recording={false} compact videoRef={diagnosticVideo} />
+                {cameraSetup}
+              </div>
             </div>
           </section>
         )}
@@ -749,7 +786,7 @@ export function App() {
                     Begin the scene
                   </button>
                   {mode === "live" && (
-                    <button disabled={busy} onClick={stopCamera}>
+                    <button onClick={busy ? cancelCameraCheck : stopCamera}>
                       Stop camera
                     </button>
                   )}
@@ -757,14 +794,11 @@ export function App() {
                     Change setup
                   </button>
                 </div>
-                {mode === "live" && !stream && (
-                  <button disabled={busy} onClick={startCamera}>
-                    Retry camera
-                  </button>
-                )}
               </div>
               <div>
-                <Preview stream={stream} recording={false} compact />
+                <Preview stream={stream} recording={false} compact videoRef={diagnosticVideo} />
+                {mode === "live" && cameraReport?.phase === "capturing" && <CameraReadings report={cameraReport} />}
+                {mode === "live" && cameraReport?.phase !== "capturing" && cameraSetup}
                 <div className="setup-note">
                   <span>Scene notes</span>
                   <p>
@@ -777,7 +811,7 @@ export function App() {
           </section>
         )}
         {screen === "stage" && e && (
-          <section className="stage">
+          <section className={`stage ${e.phase === "error" ? "camera-recovery" : ""}`}>
             <p
               className="scene-announcement"
               role="status"
@@ -801,7 +835,11 @@ export function App() {
             </div>
             <div className="stage-grid">
               <div className="monitor">
-                <Preview stream={stream} recording={recording} />
+                <Preview stream={stream} recording={recording} videoRef={diagnosticVideo} />
+                {mode === "live" && cameraReport && <details>
+                  <summary>Camera delivery diagnostics</summary>
+                  <CameraReadings report={cameraReport} />
+                </details>}
                 <div className="signal-strip">
                   <div>
                     <span>SmartSpectra</span>
@@ -923,11 +961,6 @@ export function App() {
                       <Icon name={e.phase === "paused" ? "play" : "pause"} />
                       {e.phase === "paused" ? "Resume scene" : "Pause scene"}
                     </button>
-                    {e.phase === "error" && mode === "live" && (
-                      <button disabled={busy} onClick={startCamera}>
-                        Retry camera
-                      </button>
-                    )}
                     <button disabled={busy} onClick={finish}>
                       End & save take
                     </button>
@@ -938,7 +971,7 @@ export function App() {
                   Restart
                 </button>
                 {stream && (
-                  <button disabled={busy} onClick={stopCamera}>
+                  <button onClick={busy ? cancelCameraCheck : stopCamera}>
                     <Icon name="stop" />
                     Stop camera
                   </button>
@@ -961,6 +994,7 @@ export function App() {
                 </button>
               )}
             </div>
+            {e.phase === "error" && mode === "live" && cameraSetup}
             <div
               className="beat-progress"
               aria-label={`Scene progress: beat ${e.beat + 1} of 3`}

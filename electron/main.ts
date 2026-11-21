@@ -13,6 +13,7 @@ import { readFile } from "node:fs/promises";
 import { config } from "dotenv";
 import { TakeStore } from "./store";
 import { enforceSdkPolicy } from "./sdk-policy";
+import { allowCameraCheck, allowCameraRequest } from "./camera-policy";
 
 app.setName("Cuelira");
 if (process.env.CUELIRA_TEST_USER_DATA)
@@ -127,24 +128,14 @@ app.whenReady().then(async () => {
   register();
   session.defaultSession.setPermissionRequestHandler(
     (wc, permission, callback, details) => {
-      const types = ("mediaTypes" in details ? details.mediaTypes : []) ?? [];
-      callback(
-        wc === win.webContents &&
-          details.requestingUrl === entryUrl &&
-          cameraConsent &&
-          permission === "media" &&
-          types.length === 1 &&
-          types[0] === "video",
-      );
+      callback(allowCameraRequest(wc === win.webContents && wc.getURL() === entryUrl,
+        permission, cameraConsent, entryUrl, details));
     },
   );
   session.defaultSession.setPermissionCheckHandler(
-    (wc, permission, origin, details) =>
-      wc === win.webContents &&
-      permission === "media" &&
-      cameraConsent &&
-      details.mediaType === "video" &&
-      wc.getURL() === entryUrl,
+    (wc, permission, _origin, details) =>
+      allowCameraCheck(wc === win.webContents && wc.getURL() === entryUrl,
+        permission, cameraConsent, entryUrl, details),
   );
   win.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
   win.webContents.on("will-navigate", (e) => e.preventDefault());

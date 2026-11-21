@@ -946,6 +946,21 @@ select {
   font-size: 12px;
   color: var(--color-muted);
 }
+.camera-check {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  min-width: 0;
+}
+.stage.camera-recovery { height: auto; }
+.camera-check p { margin-top: 12px; }
+.camera-fields { display: grid; gap: 12px; margin-top: 16px; }
+.camera-fields label { display: grid; gap: 4px; }
+.camera-fields select { width: 100%; min-width: 0; }
+.camera-readings { margin: 16px 0; font-variant-numeric: tabular-nums; }
+.camera-readings div { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; padding-block: 4px; }
+.camera-readings dt { color: var(--color-muted); }
+.camera-readings dd { margin: 0; overflow-wrap: anywhere; }
 .reading {
   max-width: 790px;
   margin: auto;

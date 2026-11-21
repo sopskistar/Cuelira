@@ -2,15 +2,26 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 const fake = vi.hoisted(() => ({
   instances: [] as any[],
   startupFailure: false,
+  lowFps: false,
+  stream: null as any,
+}));
+vi.mock("../src/sdk/camera", async (importOriginal) => ({
+  ...await importOriginal<typeof import("../src/sdk/camera")>(),
+  // Explicit FPS fixture; real counter/timer behavior is tested in camera.test.ts.
+  measureCameraFps: vi.fn(async () => ({ measuredFps: fake.lowFps ? 10 : 30,
+    lowestWindowFps: fake.lowFps ? 0 : 29, windows: 4, ready: !fake.lowFps })),
 }));
 vi.mock("@smartspectra/node-sdk/renderer", () => ({
   faceMetrics: [11, 12, 13, 14],
   ValidationCode: { kOk: 0, kNoFaceFound: 1 },
   ProcessingStatus: { kRunning: 3 },
+  SmartSpectraErrorCode: { kAuthenticationFailed: 2, kCreditExhausted: 4, kSustainedLowFrameRate: 14,
+    kNetworkError: 5, kServerError: 6, kInputUnavailable: 7, kNonMonotonicTimestamp: 10, kTimestampGap: 11, kMetricNotAuthorized: 13 },
   SmartSpectraSDK: class {
     handlers: Record<string, (...args: any[]) => void> = {};
     stop = vi.fn(async () => {});
     destroy = vi.fn();
+    useMediaStream = vi.fn(() => this);
     start = vi.fn(async () => {
       if (fake.startupFailure)
         throw new Error("sensitive native diagnostic placeholder");
@@ -30,16 +41,34 @@ import { Metrics } from "@smartspectra/node-sdk/messages";
 beforeEach(() => {
   fake.instances.length = 0;
   fake.startupFailure = false;
+  fake.lowFps = false;
+  const track = { label: "OV01AS", readyState: "live", stop: vi.fn(), addEventListener: vi.fn(),
+    getSettings: () => ({ deviceId: "dell-fixture", width: 1280, height: 720, frameRate: 30 }) };
+  fake.stream = { getTracks: () => [track], getVideoTracks: () => [track] };
+  vi.stubGlobal("navigator", { mediaDevices: {
+    getUserMedia: vi.fn(async () => fake.stream),
+    enumerateDevices: vi.fn(async () => [
+      { kind: "videoinput", deviceId: "dell-fixture", label: "OV01AS" },
+      { kind: "videoinput", deviceId: "phone-fixture", label: "Samsung connected camera" },
+      { kind: "audioinput", deviceId: "microphone", label: "Microphone" },
+    ]),
+  } });
   vi.stubGlobal("window", {
     cuelira: {
       info: async () => ({ keyConfigured: true, sdkAvailable: true }),
     },
   });
 });
+const video = () => ({ srcObject: null, play: vi.fn(async () => {}) }) as unknown as HTMLVideoElement;
+async function prepared(callbacks: ConstructorParameters<typeof LiveCapture>[0]) {
+  const live = new LiveCapture(callbacks);
+  await live.prepareCamera(video());
+  return live;
+}
 describe("official adapter lifecycle with SDK fixture double", () => {
   it("never returns raw native startup diagnostics to the actor", async () => {
     fake.startupFailure = true;
-    const live = new LiveCapture({
+    const live = await prepared({
       observation: vi.fn(),
       stream: vi.fn(),
       status: vi.fn(),
@@ -82,9 +111,11 @@ describe("official adapter lifecycle with SDK fixture double", () => {
       status: vi.fn(),
       error: vi.fn(),
     };
-    const live = new LiveCapture(callbacks);
+    const live = await prepared(callbacks);
     await live.start();
     const sdk = fake.instances[0];
+    expect(sdk.useMediaStream).toHaveBeenCalledWith(fake.stream);
+    expect(navigator.mediaDevices.getUserMedia).toHaveBeenCalledTimes(1);
     expect(sdk.options).toMatchObject({
       requestedMetrics: [11, 12, 13, 14],
       enableTelemetry: false,
@@ -144,7 +175,7 @@ describe("official adapter lifecycle with SDK fixture double", () => {
       status: vi.fn(),
       error: vi.fn(),
     };
-    const live = new LiveCapture(callbacks);
+    const live = await prepared(callbacks);
     await live.start();
     const sdk = fake.instances[0];
     sdk.handlers.validationStatus(1, 0, "No face");
@@ -156,8 +187,79 @@ describe("official adapter lifecycle with SDK fixture double", () => {
     sdk.handlers.error(4, "sensitive native detail", true);
     expect(callbacks.error.mock.calls.at(-1)?.[0]).not.toContain("sensitive");
     await live.stop();
+    await live.prepareCamera(video());
     await live.start();
     expect(fake.instances).toHaveLength(2);
     await live.stop();
+  });
+  it("keeps the SDK off for low preview FPS and permits another camera only after stop", async () => {
+    const callbacks = { observation: vi.fn(), stream: vi.fn(), status: vi.fn(), error: vi.fn(), cameras: vi.fn(), camera: vi.fn() };
+    fake.lowFps = true;
+    const live = await prepared(callbacks);
+    expect(fake.instances).toHaveLength(0);
+    expect(callbacks.cameras.mock.calls[0][0].map((d: any) => d.label)).toEqual(["OV01AS", "Samsung connected camera"]);
+    await expect(live.prepareCamera(video(), "phone-fixture")).rejects.toThrow("Stop the current camera");
+    await expect(live.start()).rejects.toThrow("Check the selected camera first");
+    expect(fake.stream.getTracks()[0].stop).toHaveBeenCalled();
+    const phoneTrack = { ...fake.stream.getTracks()[0], label: "Samsung connected camera",
+      getSettings: () => ({ deviceId: "phone-fixture", width: 640, height: 480, frameRate: 30 }) };
+    fake.stream = { getTracks: () => [phoneTrack], getVideoTracks: () => [phoneTrack] };
+    fake.lowFps = false;
+    await live.prepareCamera(video(), "phone-fixture", "480p");
+    expect(navigator.mediaDevices.getUserMedia).toHaveBeenLastCalledWith({ audio: false, video: {
+      deviceId: { exact: "phone-fixture" }, width: { ideal: 640 }, height: { ideal: 480 }, frameRate: { ideal: 30 },
+    } });
+    await live.start();
+    expect(fake.instances[0].useMediaStream).toHaveBeenCalledWith(fake.stream);
+    fake.instances[0].handlers.error(14, "private native data", true);
+    expect(callbacks.error.mock.calls.at(-1)?.[0]).toContain("sustained low frame rate");
+    expect(callbacks.error.mock.calls.at(-1)?.[0]).not.toMatch(/credential|private native/);
+    await live.stop();
+  });
+  it("releases a camera that opens after startup cancellation", async () => {
+    let resolve!: (s: any) => void;
+    vi.mocked(navigator.mediaDevices.getUserMedia).mockImplementationOnce(() => new Promise(r => { resolve = r; }));
+    const live = new LiveCapture({ observation: vi.fn(), stream: vi.fn(), status: vi.fn(), error: vi.fn() });
+    const pending = live.prepareCamera(video());
+    await live.stop();
+    resolve(fake.stream);
+    await expect(pending).rejects.toThrow("canceled");
+    expect(fake.stream.getTracks()[0].stop).toHaveBeenCalledTimes(1);
+    expect(fake.instances).toHaveLength(0);
+  });
+  it("separates camera denial from credentials and cleans up a failed preview", async () => {
+    const callbacks = { observation: vi.fn(), stream: vi.fn(), status: vi.fn(), error: vi.fn() };
+    vi.mocked(navigator.mediaDevices.getUserMedia).mockRejectedValueOnce({ name: "NotAllowedError", message: "private details" });
+    const live = new LiveCapture(callbacks);
+    await expect(live.prepareCamera(video())).rejects.toThrow("Camera permission denied");
+    expect(fake.instances).toHaveLength(0);
+    const broken = video();
+    broken.play = async () => { throw new Error("preview unavailable"); };
+    await expect(live.prepareCamera(broken)).rejects.toThrow("Camera preview did not start");
+    expect(fake.stream.getTracks()[0].stop).toHaveBeenCalledTimes(1);
+  });
+  it("releases host tracks on camera disconnect during SDK capture and ignores late callbacks", async () => {
+    const callbacks = { observation: vi.fn(), stream: vi.fn(), status: vi.fn(), error: vi.fn() };
+    const live = await prepared(callbacks);
+    const track = fake.stream.getVideoTracks()[0];
+    await live.start();
+    const ended = track.addEventListener.mock.calls.find((call: any[]) => call[0] === "ended")[1];
+    ended();
+    await live.stop();
+    expect(track.stop).toHaveBeenCalledTimes(1);
+    expect(fake.instances[0].stop).toHaveBeenCalledTimes(1);
+    expect(callbacks.error).toHaveBeenCalledWith(expect.stringContaining("Camera disconnected"));
+    fake.instances[0].handlers.validationStatus(1, 0, "late warning");
+    expect(callbacks.observation).not.toHaveBeenCalled();
+  });
+  it("blocks another native session after failed teardown while releasing the camera", async () => {
+    const live = await prepared({ observation: vi.fn(), stream: vi.fn(), status: vi.fn(), error: vi.fn() });
+    await live.start();
+    fake.instances[0].stop.mockRejectedValueOnce(new Error("native failure"));
+    await expect(live.stop()).rejects.toThrow("Restart Cuelira");
+    expect(fake.stream.getTracks()[0].stop).toHaveBeenCalledTimes(1);
+    expect(fake.instances[0].destroy).toHaveBeenCalledTimes(1);
+    await expect(live.prepareCamera(video())).rejects.toThrow("Restart Cuelira");
+    expect(navigator.mediaDevices.getUserMedia).toHaveBeenCalledTimes(1);
   });
 });

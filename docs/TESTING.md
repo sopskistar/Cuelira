@@ -6,6 +6,8 @@ I distinguish automated fixtures, real desktop startup and live camera evidence.
 
 ```sh
 npm ci
+npm run typecheck
+npm run lint
 npm run build
 npm test
 npx playwright install chromium
@@ -14,9 +16,13 @@ npm run security
 npm audit
 ```
 
-`npm test` covers 36 cases: official protobuf bytes, normalization, percentage scores, safe timestamps, missing/malformed fields, validation, stability, thresholds, arming, sample gaps, stale/future/duplicate events, cooldown behavior, neutral departure/return, manual fallback, pause/recovery, timeout, restart, storage, serialized checkpoints, interrupted-take recovery, export, deletion, recording consent, SDK policy and adapter subscription/teardown. SDK-emitting tests use a declared fixture double; no raw-face recording is bundled.
+`npm test` covers official protobuf bytes, normalization, percentage scores, safe timestamps, missing/malformed fields, validation, stability, thresholds, arming, sample gaps, stale/future/duplicate events, cooldown behavior, neutral departure/return, manual fallback, pause/recovery, timeout, restart, storage, serialized checkpoints, interrupted-take recovery, export, deletion, recording consent, SDK policy and adapter subscription/teardown. Camera regressions add exact selection, negotiated preferences, safe labels/IR warning, real callback-counter arithmetic, four FPS windows, freezes/no frames, cancellation/visibility, host-stream ownership, late acquisition, device switching, unplugging, native teardown failure and separate error classifications. SDK-emitting tests use a declared fixture double; frame-metadata tests use simulated counters. No raw-face recording is bundled. `lint` is TypeScript's unused-local/parameter check plus normal type checking; no ESLint toolchain is installed.
 
-Four local Playwright tests cover browser manual journey/export/deletion, minimum-window/keyboard/reduced motion, real Electron launch/no-key/persistence/reload/deletion, and a playable WebM recorded from an explicitly synthetic moving canvas. This last test verifies recording code, **not webcam recording**. Native dialogs, real camera denial and real authentication remain separate checks.
+Five local Playwright tests cover browser manual journey/export/deletion, minimum-window/keyboard/reduced motion, real Electron launch/no-key/persistence/reload/deletion and camera permission handlers using Chromium's explicitly fake camera, camera selection/readiness/cancellation using clearly labeled synthetic Dell/phone canvas fixtures, and playable WebM recording from an explicitly synthetic moving canvas. These verify application code, **not real camera compatibility or facial recognition**. The camera-selection test measures actual browser delivery of its synthetic streams with the production counter. Native save dialogs, actual Windows camera denial and real authentication remain separate checks. Screenshots with `fixture` in the name are automated synthetic evidence only.
+
+Camera-change validation on this development host: **typecheck, lint, build and all 50 unit tests passed**. All **five GUI cases passed across split runs**: the final full-suite process received SIGTERM after the camera-selection, manual journey and minimum-size cases passed; the remaining native Electron and recording cases then passed together with exit code 0. Earlier GUI failures exposed and fixed a duplicate preview-stream attachment/playback race and an incorrect test dropdown locator. The camera check brings the preview into view to avoid measuring off-screen compositor throttling. None of these findings establishes the cause of the user's original Dell low-FPS error.
+
+The tracked-file security scan reported zero findings, and Git whitespace checks passed. Real screenshots of the low-FPS fixture, selected higher-rate fixture, and native Electron fake-camera check were inspected at desktop and 960-pixel widths; no clipping or horizontal overflow was observed. Hallmark's static CSS scan reported zero FAIL/REFLEX/WARN; its render tier did not run, so actual Playwright screenshots provide visual evidence. Diagnostic screenshots stay in ignored `artifacts/screenshots/`, outside source control. Windows camera acceptance remains separate.
 
 On this WSL host I reused existing Chromium installations. Playwright config accepts `PLAYWRIGHT_CHROMIUM_PATH`; a normal installation uses Playwright's downloaded browser. The Electron GUI test uses `--no-sandbox` only for the restricted Linux test host; shipping window settings still specify sandbox and context isolation, and `npm start` adds no such flag. Standard CI skips the Linux Electron display test and runs the browser/recording checks.
 
@@ -40,16 +46,71 @@ npm test
 npm start
 ```
 
-If already cloned on Windows, pull the existing checkout normally instead of creating another. Obtain a developer key from [Presage](https://physiology.presagetech.com/auth/register). Restart after changing `.env`. For an installed Windows build, place the private `.env` in `%APPDATA%\Cuelira\.env` instead of beside the executable, then restart. Never bake it into the installer. Keep Windows Settings → Privacy & security → Camera → camera and desktop-app access enabled. Close other webcam applications. Use front-facing, even lighting; keep one face in frame.
+If already cloned on Windows, use the update commands below. Obtain a developer key from [Presage](https://physiology.presagetech.com/auth/register). Restart after changing `.env`. For an installed Windows build, place the private `.env` in `%APPDATA%\Cuelira\.env` instead of beside the executable, then restart. Never bake it into the installer. Keep Windows Settings → Privacy & security → Camera → camera and desktop-app access enabled. Close other webcam applications. Use front-facing, even lighting; keep one face in frame.
 
-## Hardware acceptance: all currently NOT TESTED
+## Update an existing Windows checkout and retest camera selection
+
+Close Cuelira first. Run in **Windows PowerShell**, in the existing Windows checkout (replace the example folder with its actual location). This preserves an existing private `.env`; do not copy the example over it. If the working tree has local edits, the script stops so they can be committed or preserved before pulling. Do not use `reset --hard`, `clean`, or a WSL checkout.
+
+```powershell
+Set-Location 'C:\path\to\Cuelira'
+git status --short
+if (git status --porcelain) { throw 'Local changes found. Preserve them before pulling.' }
+git switch main
+if ($LASTEXITCODE -ne 0) { throw 'Could not switch to main' }
+git pull --ff-only origin main
+if ($LASTEXITCODE -ne 0) { throw 'Pull failed. Resolve the checkout state before continuing.' }
+git rev-parse HEAD
+node --version
+node -p "process.platform + '-' + process.arch"
+# Expected native Windows: win32-x64, Node 22 or 24.
+npm ci
+if ($LASTEXITCODE -ne 0) { throw 'npm ci failed' }
+npm run typecheck
+if ($LASTEXITCODE -ne 0) { throw 'Typecheck failed' }
+npm run lint
+if ($LASTEXITCODE -ne 0) { throw 'Lint failed' }
+npm run build
+if ($LASTEXITCODE -ne 0) { throw 'Build failed' }
+npm test
+if ($LASTEXITCODE -ne 0) { throw 'Tests failed' }
+npm run security
+if ($LASTEXITCODE -ne 0) { throw 'Security scan failed' }
+if (-not (Test-Path .env)) {
+  Copy-Item .env.example .env
+  notepad .env
+  throw 'Add your key privately, save .env, then run npm start.'
+}
+npm start
+```
+
+Optional automated browser fixtures on Windows: `npx playwright install chromium`, then `npm run test:gui -- --grep-invert 'native Electron'`. The local native Electron GUI test is for this Linux development host (uses `--no-sandbox` with a fake camera); packaged Windows smoke tests run in CI with no such flag. These automated fixtures cannot certify Samsung or Dell behavior.
+
+1. Connect the Samsung using Microsoft's Windows connected-camera setup **before** checking the camera list. Follow [Microsoft's official connected-camera instructions](https://support.microsoft.com/en-gb/windows/apps/phonelink/use-your-mobile-device-s-camera). Check Windows Settings → Bluetooth & devices → Mobile devices → Manage devices → the phone's connected-camera setting, where available. Confirm the phone is connected/unlocked and accept its camera prompt. Exact availability depends on Windows/Phone Link setup. No Samsung-specific Cuelira package is required.
+2. Close Windows Camera, Teams, Zoom and **all webcam-test tabs** before opening Cuelira. If using WebcamTests separately, disable maximum-resolution detection and record its actual selected mode/FPS; close it again before Cuelira.
+3. Start a rehearsal. Leave optional recording **off** for the first test. Grant camera/processing consent and click **Enable camera**. The first check uses the system default; this does not guarantee RGB. Keep the preview visible for the full nine seconds. The app brings it into view when checking. No SDK starts during this check.
+4. Inspect the preview, safe device label, actual negotiated dimensions/FPS, measured preview FPS and lowest window. Stop camera, **Refresh cameras**, then select the Samsung's Windows-reported label (or OV01AS for comparison). Select 1280×720/30 and click **Check selected camera**. Device and mode controls stay locked until stop. To choose the Samsung immediately, cancel the first check as soon as labels are listed, then stop/refresh/select.
+5. A passing camera check means all four windows reached 25 FPS, with 30 as the target. It is not SDK readiness or recognition proof. If Dell remains slow after adding light and one 640×480 comparison, prioritize the Samsung or another webcam. Lowering resolution is only a comparison; it guarantees neither 30 FPS nor valid SDK metrics. If Samsung is absent, resolve Windows exposure of the camera first; Cuelira cannot select a device Windows does not enumerate.
+6. Click **Start SmartSpectra** only after the selected camera passes. Check Running **and** fresh, nonempty, valid expression observations. The completed camera check and the separate SDK input-callback rate remain available in preparation / stage diagnostics. A good camera check followed by low SDK input-callback rate points toward load/exposure/frame-delivery investigation; it is not proof of a specific cause.
+7. Begin the scene only when valid fresh face metrics enable it. Perform surprise, angry, then a deliberate non-neutral expression followed by return toward neutral. Verify Rowan responds to genuine **accepted** cues. Complete/review and export the real event report. Repeat with separately consented video recording only after live sensing works, watching for an FPS drop under recording load.
+8. Test Stop → select other device → recheck → start; cancel an in-progress check; unplug/disable the phone during capture; reconnect and explicitly retry. Confirm no buffered cue advances after failure, no automatic SDK restart, and the camera indicator goes off on stop/cancel/exit. After failed native teardown, restart Cuelira before another attempt.
+
+For each device/mode, record: commit, Windows version, safe camera label, requested target, negotiated dimensions/FPS, measured average/lowest window, SDK input-callback rate, validation/error code, whether real metrics arrived, accepted cues and optional-recording state. Do not include device IDs, API keys, `.env` contents or unapproved face footage. Diagnostics are temporary and are not added to take exports. Share only evidence you intentionally approve.
+
+## Current hardware evidence
+
+On November 21 the user reported a genuine Dell Latitude 9420 preview, brief Running, no fresh valid expression samples, then error 14. Their independent OV01AS web test reported average 10 / max 22 / min 0 FPS with maximum-resolution detection enabled (442 decoded / 5 dropped). This corroborates low delivered rate; it does not establish its underlying cause or prove infrared selection. Samsung S24 Ultra capture, SDK input and accepted live cues remain **UNVERIFIED**. See [the investigation](SMARTSPECTRA_INTEGRATION.md#error-14-investigation-and-camera-selection-november-21-2026).
+
+## Hardware acceptance: repeat on the new camera-selection flow
 
 Record the result of each row as VERIFIED / FAILED / NOT TESTED, with device, OS, date and evidence path. Do not change a status merely because the UI compiles.
 
 | Check                         | Expected evidence                                                                             |
 | ----------------------------- | --------------------------------------------------------------------------------------------- |
 | Launch without consent        | Camera light off; consent unchecked; no preview or recording                                  |
-| Grant camera consent          | Enable camera requests the real device; optional recording remains off                        |
+| Grant camera consent          | Enable camera requests the real device and measures FPS; optional recording remains off       |
+| Choose Dell / Samsung         | Stop, refresh, select real listed device, check its label/preview/settings/delivered FPS        |
+| Low FPS                       | SDK startup disabled; measured result visible; stop and select another camera/mode            |
 | OS denies camera              | Useful error; no active capture; manual option remains labeled                                |
 | Missing / invalid key         | Missing key errors before capture; invalid key yields SDK error, never Ready                  |
 | Authenticated SDK startup     | Setup reports Running and fresh, nonempty facial metrics                                      |

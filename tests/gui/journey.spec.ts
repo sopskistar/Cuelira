@@ -123,8 +123,9 @@ test("minimum desktop size, keyboard, privacy and reduced motion", async ({
   ).toBeVisible();
 });
 test("native Electron launches with secure defaults, no key, and persists manual take", async () => {
+  test.setTimeout(60000);
   const app = await _electron.launch({
-    args: [".", "--no-sandbox"],
+    args: [".", "--no-sandbox", "--use-fake-device-for-media-stream=fps=30"],
     env: {
       ...process.env,
       PRESAGE_API_KEY: "",
@@ -147,6 +148,15 @@ test("native Electron launches with secure defaults, no key, and persists manual
     expect(runtime.desktop).toBe(true);
     expect(runtime.keyConfigured).toBe(false);
     expect(runtime.sdkAvailable).toBe(true);
+    // Chromium fake camera only: exercise the actual Electron handlers without
+    // requiring hardware or opening a user's real webcam on a developer machine.
+    expect(await page.evaluate(async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(t => t.stop());
+        return "unexpectedly allowed";
+      } catch (error) { return (error as DOMException).name; }
+    })).toBe("NotAllowedError");
     await page.screenshot({
       path: "artifacts/screenshots/electron-welcome.png",
       fullPage: true,
@@ -154,6 +164,13 @@ test("native Electron launches with secure defaults, no key, and persists manual
     await page.getByRole("button", { name: "Start a rehearsal" }).click();
     await page.getByRole("checkbox").first().check();
     await page.getByRole("button", { name: "Enable camera" }).click();
+    await expect(page.getByText("Camera delivery check passed.", { exact: false })).toBeVisible({ timeout: 15000 })
+      .catch(async error => {
+        await page.screenshot({ path: "artifacts/screenshots/electron-camera-failure-fixture.png", fullPage: true });
+        throw new Error(`${error}\nCamera UI: ${await page.locator("main").innerText()}`);
+      });
+    await page.screenshot({ path: "artifacts/screenshots/electron-camera-check-fixture.png", fullPage: true });
+    await page.getByRole("button", { name: "Start SmartSpectra" }).click();
     await expect(page.getByRole("alert")).toContainText(
       "Developer key missing",
     );
