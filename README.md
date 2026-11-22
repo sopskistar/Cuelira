@@ -88,12 +88,40 @@ I began this repository during the challenge period and preserve its genuine his
 
 ---
 
-## Engineering portfolio: desktop integration, packaging and CI
+## Cloud Engineering & DevOps
 
-**Architecture:** TypeScript/React/Electron Windows desktop application with Presage SmartSpectra native SDK adapter, local state/persistence, explicit consent and Playwright/Vitest regression coverage. CI packaging evidence includes an unsigned Windows installer and native-library launch checks.
+*Project-specific implementation record for technical interviews and portfolio review. Items below distinguish completed work from unverified or planned infrastructure.*
 
-**Engineering tools:** Electron, TypeScript, React, Vite, SmartSpectra SDK, electron-builder, GitHub Actions, Playwright, Vitest and Windows/WSL development tooling.
+### Cloud platforms
+- A **native Windows Electron application**; not a hosted cloud service. Presage SmartSpectra SDK requires external authentication and provider communication.
+- Local environment configuration keeps SDK credentials outside renderer assets and source control; local recording/export storage is consent-controlled.
 
-**Evidence:** [SDK integration](docs/SMARTSPECTRA_INTEGRATION.md) · [Physical-camera acceptance status](docs/TESTING.md) · [Windows CI run](https://github.com/sopskistar/Cuelira/actions/runs/44914798837).
+### DevOps & CI/CD
+- GitHub Actions build, test and unsigned Windows packaging checks are documented, including native-library packaging acceptance.
+- TypeScript, Vite, Vitest, Playwright and electron-builder cover compile, tests, UI and release packaging.
 
-**Scope:** actual physical-camera facial cue delivery has **not** passed acceptance. Native-library packaging and synthetic/manual tests must not be represented as proof of live expression recognition.
+### Networking & API engineering
+- Electron main/preload/renderer privilege boundaries and SDK credential handling are documented.
+- SDK network/authentication dependencies are disclosed; physical-camera SDK expression delivery is not yet verified.
+
+### Monitoring & reliability
+- Explicit camera consent, bounded cue-state validation, local retention and failure/unsupported-device handling.
+- Synthetic/manual tests and Windows packaging are not evidence of reliable real physical-camera inference; no cloud uptime or database recovery claim.
+
+### Architecture & infrastructure diagram
+
+```mermaid
+flowchart LR
+  U[Actor on Windows] --> E[Electron renderer]
+  E --> P[Restricted preload bridge]
+  P --> M[Electron main and SDK policy]
+  M --> S[Presage SmartSpectra native SDK]
+  E --> L[Local take and review storage]
+  G[GitHub Actions] --> B[Build tests and Windows packaging]
+```
+
+**Deployment:** Native Windows app — [local setup](#run-locally-native-windows); no hosted production web app
+
+**Technical documentation and proof:** [Architecture](docs/ARCHITECTURE.md) · [Native SDK integration](docs/SMARTSPECTRA_INTEGRATION.md) · [Camera acceptance](docs/TESTING.md) · [CI run](https://github.com/sopskistar/Cuelira/actions/runs/44914798837).
+
+**Evidence boundary:** Physical-camera delivery remains UNVERIFIED. Terraform, Kubernetes, cloud hosting and any clinical or biometric inference accuracy are not claimed.
