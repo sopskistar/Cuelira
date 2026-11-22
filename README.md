@@ -85,3 +85,15 @@ Optional SDK telemetry is disabled, but this does **not** mean offline or no pro
 - [Build discoveries](docs/BUILD_DISCOVERIES.md), [testing](docs/TESTING.md), [final readiness](docs/FINAL_READINESS.md), [unpublished DEV draft](docs/DEV_SUBMISSION.md).
 
 I began this repository during the challenge period and preserve its genuine history. My application, original dialogue and vector assets use the existing [MIT license](LICENSE), copyright **Udeorji Sopuruchi Juliana**. The Presage SDK and other dependencies retain their own [licenses and notices](docs/THIRD_PARTY_NOTICES.md).
+
+---
+
+## Engineering portfolio: desktop integration, packaging and CI
+
+**Architecture:** TypeScript/React/Electron Windows desktop application with Presage SmartSpectra native SDK adapter, local state/persistence, explicit consent and Playwright/Vitest regression coverage. CI packaging evidence includes an unsigned Windows installer and native-library launch checks.
+
+**Engineering tools:** Electron, TypeScript, React, Vite, SmartSpectra SDK, electron-builder, GitHub Actions, Playwright, Vitest and Windows/WSL development tooling.
+
+**Evidence:** [SDK integration](docs/SMARTSPECTRA_INTEGRATION.md) · [Physical-camera acceptance status](docs/TESTING.md) · [Windows CI run](https://github.com/sopskistar/Cuelira/actions/runs/44914798837).
+
+**Scope:** actual physical-camera facial cue delivery has **not** passed acceptance. Native-library packaging and synthetic/manual tests must not be represented as proof of live expression recognition.
